@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 
 import useIntersectionObserver from "#/hook/useIntersectionObserverV2";
-import ScrollBox, { ScrollBoxHandle } from "../08_scrollBox/react/scrollBox";
+import ScrollBox, { ScrollBoxHandle } from "../part1/scrollBox";
 import cx from "./cx";
 import data from "./data";
 
@@ -81,13 +81,7 @@ function ScrollSpy4() {
   }, []);
 
   useEffect(() => {
-    const entryIndexes = entries.map(
-      (e) => +((e.target as HTMLElement).dataset.index || 0),
-    );
-    const minIndex = Math.min(...entryIndexes);
-    const $target = entries.find(
-      (e) => +((e.target as HTMLElement).dataset.index || 0) === minIndex,
-    )?.target as HTMLElement;
+    const $target = entries[0]?.target as HTMLElement;
     const index = $target?.dataset.index;
     if (typeof index === "string") {
       setCurrentItem(+index);

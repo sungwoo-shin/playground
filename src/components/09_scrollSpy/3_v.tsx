@@ -104,10 +104,10 @@ const initiator = (wrapper: HTMLDivElement) => {
   const $items = data.map((d, i) => generateListItem({ ...d, index: i }));
   $list.append(...$items);
 
+  vanillaIntersectionObserverV2($items, IOOptions, handleIntersect);
+
   wrapper.classList.add(cx("ScrollSpy"));
   wrapper.append($header, $list);
-
-  vanillaIntersectionObserverV2($items, IOOptions, handleIntersect);
 };
 
 function ScrollSpy3V() {
