@@ -29,6 +29,9 @@
     // off
     "import/prefer-default-export": "off",
     "import/order": "off",
+    "import/no-extraneous-dependencies": "off",
+    "react/require-default-props": "off",
+    "react/jsx-props-no-spreading": "off",
 
     // error
     "curly": ["error", "all"],
