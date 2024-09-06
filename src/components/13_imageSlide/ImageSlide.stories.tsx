@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 
-import ImageSlide from "./1_v";
+import ImageSlide from "./index";
 
 const meta = {
   component: ImageSlide,

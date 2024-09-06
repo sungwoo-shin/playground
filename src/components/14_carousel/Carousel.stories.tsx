@@ -1,11 +1,11 @@
 import type { Meta, StoryObj } from "@storybook/react";
 
-import ImageSlide from "./2_r";
+import Carousel from "./index";
 
 const meta = {
-  component: ImageSlide,
+  component: Carousel,
   tags: ["autodocs"],
-} satisfies Meta<typeof ImageSlide>;
+} satisfies Meta<typeof Carousel>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
