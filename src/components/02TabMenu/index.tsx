@@ -1,10 +1,10 @@
-import TabMenu4V from "./4_v";
 import TabMenu5 from "./5_r";
 import TabMenu6 from "./6_r";
 import { cx } from "./cx";
 import { TabMenu1R } from "./TabMenu1R";
 import { TabMenu2R } from "./TabMenu2R";
 import { TabMenu3R } from "./TabMenu3R";
+import { TabMenu4V } from "./TabMenu4V";
 
 export function TabMenu() {
   return (
