@@ -1,9 +1,9 @@
 import { useRef } from "react";
 
+import { useStyleInView } from "#/hooks/useStyleInView";
 import { ViewportRectContextProvider } from "../../contexts/ViewportRectContextProvider";
 import { cx } from "./cx";
 import { data } from "./data";
-import useStyleInView from "./useStyleInView";
 
 const tooltipPosition = {
   top: "100%",
@@ -21,7 +21,11 @@ type TProps = {
 function Tooltip({ id, title, description }: TProps) {
   const wrapperRef = useRef<HTMLDetailsElement>(null);
   const targetRef = useRef<HTMLDivElement>(null);
-  const style = useStyleInView(wrapperRef, targetRef, tooltipPosition);
+  const style = useStyleInView({
+    wrapperRef,
+    targetRef,
+    position: tooltipPosition,
+  });
 
   return (
     <details className={cx("details")} data-tooltip={id} ref={wrapperRef}>
@@ -40,7 +44,7 @@ function Tooltip({ id, title, description }: TProps) {
   );
 }
 
-export function Tooltip4() {
+export function Tooltip4R() {
   return (
     <ViewportRectContextProvider>
       <>

@@ -2,7 +2,7 @@
 import { KeyboardEvent, ReactNode, RefObject, useRef } from "react";
 import { createPortal } from "react-dom";
 
-import useStyleInView from "#/hooks/useStyleInView";
+import { useStyleInView } from "#/hooks/useStyleInView";
 import cx from "../cx";
 import data from "../data";
 import useDropdown, {
@@ -67,13 +67,13 @@ const dropdownPosition = {
 
 export function DDList({ children, containerRef, isOpen }: DropdownListProps) {
   const listRef = useRef<HTMLUListElement>(null);
-  const style = useStyleInView(
-    containerRef,
-    listRef,
-    dropdownPosition,
-    "absolute",
-    true,
-  );
+  const style = useStyleInView({
+    wrapperRef: containerRef,
+    targetRef: listRef,
+    position: dropdownPosition,
+    positionType: "absolute",
+    needUpdate: true,
+  });
   const $root = document.querySelector("#popoverRoot");
 
   if (!$root) {

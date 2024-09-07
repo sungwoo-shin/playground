@@ -1,9 +1,9 @@
-import { Tooltip4 } from "./4_r";
 import Tooltip5V from "./5_v";
 import { cx } from "./cx";
 import { Tooltip1R } from "./Tooltip1R";
 import { Tooltip2R } from "./Tooltip2R";
 import { Tooltip3R } from "./Tooltip3R";
+import { Tooltip4R } from "./Tooltip4R";
 
 export function Tooltip() {
   return (
@@ -12,7 +12,7 @@ export function Tooltip() {
       <Tooltip1R />
       <Tooltip2R />
       <Tooltip3R />
-      <Tooltip4 />
+      <Tooltip4R />
       <Tooltip5V />
     </div>
   );

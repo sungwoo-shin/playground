@@ -2,7 +2,7 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import { RefObject } from "react";
 
-import useStyleInView from "#/hooks/useStyleInView";
+import { useStyleInView } from "#/hooks/useStyleInView";
 import cx from "../cx";
 
 const menuPosition = {
@@ -24,13 +24,13 @@ function MenuPopover({
   dialogRef: RefObject<HTMLDialogElement>;
   opened: boolean;
 }) {
-  const style = useStyleInView(
+  const style = useStyleInView({
     wrapperRef,
-    dialogRef,
-    menuPosition,
-    "absolute",
-    opened,
-  );
+    targetRef: dialogRef,
+    position: menuPosition,
+    positionType: "absolute",
+    needUpdate: opened,
+  });
 
   return (
     // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-noninteractive-element-interactions

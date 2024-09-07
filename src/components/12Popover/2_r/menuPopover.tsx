@@ -3,7 +3,7 @@
 import { RefObject, useRef } from "react";
 import { createPortal } from "react-dom";
 
-import useStyleInView from "#/hooks/useStyleInView";
+import { useStyleInView } from "#/hooks/useStyleInView";
 import cx from "../cx";
 
 const menuPosition = {
@@ -23,7 +23,12 @@ const MenuPopover = ({
   wrapperRef: RefObject<HTMLElement>;
 }) => {
   const targetRef = useRef<HTMLUListElement>(null);
-  const style = useStyleInView(wrapperRef, targetRef, menuPosition, "absolute");
+  const style = useStyleInView({
+    wrapperRef,
+    targetRef,
+    position: menuPosition,
+    positionType: "absolute",
+  });
 
   return createPortal(
     // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions

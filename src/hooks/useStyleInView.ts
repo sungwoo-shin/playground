@@ -2,28 +2,34 @@ import { RefObject, useLayoutEffect, useState } from "react";
 
 import { useViewportRect } from "#/contexts/ViewportRectContextProvider";
 
-type PositionKey = "left" | "right" | "top" | "bottom";
-type Position = Partial<Record<PositionKey, string | number>>;
-type Style = Partial<Record<"left" | "right" | "top" | "bottom", number>>;
+type TPositionKey = "left" | "right" | "top" | "bottom";
+type TPosition = Partial<Record<TPositionKey, string | number>>;
+type TStyle = Partial<Record<"left" | "right" | "top" | "bottom", number>>;
 
-const useStyleInView = (
-  wrapperRef: RefObject<HTMLElement>,
-  targetRef: RefObject<HTMLElement>,
-  position: Position,
-  positionType: "absolute" | "relative" = "relative",
-  needUpdate: boolean = true,
-) => {
+export const useStyleInView = ({
+  wrapperRef,
+  targetRef,
+  position,
+  positionType = "relative",
+  needUpdate = true,
+}: {
+  wrapperRef: RefObject<HTMLElement>;
+  targetRef: RefObject<HTMLElement>;
+  position: TPosition;
+  positionType?: "absolute" | "relative";
+  needUpdate?: boolean;
+}) => {
   const viewportRect = useViewportRect();
-  const [style, setStyle] = useState<Style>({});
+  const [style, setStyle] = useState<TStyle>({});
 
   useLayoutEffect(() => {
     if (!needUpdate || !wrapperRef.current || !targetRef.current) {
       return;
     }
+
     const wrapperRect = wrapperRef.current.getBoundingClientRect();
     const targetRect = targetRef.current.getBoundingClientRect();
 
-    // "기준값". top은 top을 기준으로 아래로 보여주기. bototm은 위로 보여주기.
     const verticalKey =
       wrapperRect.bottom + targetRect.height < viewportRect.height
         ? "top"
@@ -32,13 +38,6 @@ const useStyleInView = (
       wrapperRect.right + targetRect.width < viewportRect.width
         ? "left"
         : "right";
-
-    /* console.log({
-      horizontalKey,
-      wrapperRight: wrapperRect.right,
-      targetWidth: targetRect.width,
-      viewportWidth: viewportRect.width,
-    }) */
 
     if (positionType === "absolute") {
       const absoluteTop = -viewportRect.top + wrapperRect.top;
@@ -55,18 +54,26 @@ const useStyleInView = (
             : viewportRect.width - wrapperRect.right + +(position.right || 0),
         [horizontalKey === "left" ? "right" : "left"]: "auto",
       });
-    } else {
-      /* relative이던 기존방식:  */
+    } else if (positionType === "relative") {
       setStyle({
         [verticalKey]: position[verticalKey] || 0,
         [verticalKey === "top" ? "bottom" : "top"]: "auto",
         [horizontalKey]: position[horizontalKey] || 0,
         [horizontalKey === "left" ? "right" : "left"]: "auto",
       });
+    } else {
+      throw new Error("Unexpected positionType");
     }
-  }, [viewportRect, wrapperRef, targetRef, position, needUpdate]);
+  }, [
+    needUpdate,
+    position,
+    positionType,
+    targetRef,
+    viewportRect.height,
+    viewportRect.top,
+    viewportRect.width,
+    wrapperRef,
+  ]);
 
   return style;
 };
-
-export default useStyleInView;

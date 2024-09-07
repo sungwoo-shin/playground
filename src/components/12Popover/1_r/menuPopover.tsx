@@ -2,7 +2,7 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import { RefObject, useRef } from "react";
 
-import useStyleInView from "#/hooks/useStyleInView";
+import { useStyleInView } from "#/hooks/useStyleInView";
 import cx from "../cx";
 
 const menuPosition = {
@@ -22,7 +22,11 @@ function MenuPopover({
   wrapperRef: RefObject<HTMLElement>;
 }) {
   const targetRef = useRef<HTMLUListElement>(null);
-  const style = useStyleInView(wrapperRef, targetRef, menuPosition);
+  const style = useStyleInView({
+    wrapperRef,
+    targetRef,
+    position: menuPosition,
+  });
 
   return (
     // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
