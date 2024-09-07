@@ -1,9 +1,9 @@
-import Tooltip5V from "./5_v";
 import { cx } from "./cx";
 import { Tooltip1R } from "./Tooltip1R";
 import { Tooltip2R } from "./Tooltip2R";
 import { Tooltip3R } from "./Tooltip3R";
 import { Tooltip4R } from "./Tooltip4R";
+import { Tooltip5V } from "./Tooltip5V";
 
 export function Tooltip() {
   return (

@@ -22,8 +22,8 @@ const initiator = (wrapper: HTMLDivElement) => {
     return $details;
   });
 
-  const closeAllTooltip = (e: Event) => {
-    const target = e.target as HTMLElement;
+  const closeAllTooltip = (event: Event) => {
+    const target = event.target as HTMLElement;
     document.querySelectorAll("[data-tooltip]").forEach((elem) => {
       if (elem !== target.parentElement) {
         elem.removeAttribute("open");
@@ -35,7 +35,7 @@ const initiator = (wrapper: HTMLDivElement) => {
   wrapper.append(...$tooltips);
 };
 
-function Tooltip5V() {
+export function Tooltip5V() {
   return (
     <>
       <h3>#5. Vanilla</h3>
@@ -43,5 +43,3 @@ function Tooltip5V() {
     </>
   );
 }
-
-export default Tooltip5V;
