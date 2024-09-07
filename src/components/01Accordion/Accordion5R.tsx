@@ -1,17 +1,14 @@
 import { cx } from "./cx";
 import { data } from "./data";
 
-function AccordionItem({
-  id,
-  title,
-  description,
-  initialChecked,
-}: {
+type TProps = {
   id: string;
   title: string;
   description: string;
   initialChecked: boolean;
-}) {
+};
+
+function AccordionItem({ id, title, description, initialChecked }: TProps) {
   return (
     <li className={cx("item", "item5")} key={id}>
       <input
@@ -29,19 +26,21 @@ function AccordionItem({
   );
 }
 
-function Accordion5() {
+export function Accordion5R() {
   return (
     <>
-      <h3>
-        #5. React<sub>html input(radio)로 처리</sub>
-      </h3>
+      <h3>#5. React - html input(radio)로 처리</h3>
       <ul className={cx("container")}>
-        {data.map((d, i) => (
-          <AccordionItem {...d} key={d.id} initialChecked={i === 0} />
+        {data.map(({ description, id, title }, i) => (
+          <AccordionItem
+            key={id}
+            initialChecked={i === 0}
+            description={description}
+            id={id}
+            title={title}
+          />
         ))}
       </ul>
     </>
   );
 }
-
-export default Accordion5;
