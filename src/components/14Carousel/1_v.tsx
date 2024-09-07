@@ -1,5 +1,5 @@
 import { generateDOM } from "#/utils/util";
-import VanillaWrapper from "../vanillaWrapper";
+import { VanillaWrapper } from "../vanillaWrapper";
 import cx from "./cx";
 import data from "./data";
 
@@ -73,7 +73,12 @@ const initiator = (wrapper: HTMLDivElement) => {
 };
 
 function Carousel1V() {
-  return <VanillaWrapper title="#1" initiator={initiator} />;
+  return (
+    <>
+      <h3>#3. Vanilla</h3>
+      <VanillaWrapper initiator={initiator} />
+    </>
+  );
 }
 
 export default Carousel1V;

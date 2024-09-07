@@ -1,4 +1,4 @@
-import VanillaWrapper from "../vanillaWrapper";
+import { VanillaWrapper } from "../vanillaWrapper";
 import cx from "./cx";
 import { data } from "./data";
 
@@ -61,7 +61,11 @@ const initiator = (wrapper: HTMLDivElement) => {
   wrapper.append($ul);
 };
 
-function Accordion4V() {
-  return <VanillaWrapper title="#4" initiator={initiator} />;
+export function Accordion4V() {
+  return (
+    <>
+      <h3>#4. Vanilla</h3>
+      <VanillaWrapper initiator={initiator} />;
+    </>
+  );
 }
-export default Accordion4V;

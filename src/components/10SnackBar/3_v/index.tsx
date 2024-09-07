@@ -1,4 +1,4 @@
-import VanillaWrapper from "#/components/vanillaWrapper";
+import { VanillaWrapper } from "#/components/vanillaWrapper";
 import { generateDOM, stringToDOM } from "#/utils/util";
 import cx from "../cx";
 import data from "../data";
@@ -30,7 +30,8 @@ function SnackbarV() {
   return (
     <>
       <h2>스낵바</h2>
-      <VanillaWrapper title="#3" initiator={initiator} />
+      <h3>#3. Vanilla</h3>
+      <VanillaWrapper initiator={initiator} />
     </>
   );
 }

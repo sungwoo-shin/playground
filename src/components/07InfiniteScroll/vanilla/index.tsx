@@ -1,4 +1,4 @@
-import VanillaWrapper from "#/components/vanillaWrapper";
+import { VanillaWrapper } from "#/components/vanillaWrapper";
 import vanillaIntersectionObserver from "#/hooks/vanilla/intersectionObserver";
 import cx from "../cx";
 import infinitePageFetcher, { Datum, FetchState } from "./infiniteFetcher";
@@ -65,7 +65,8 @@ function InfiniteScrollV() {
   return (
     <div style={{ minHeight: "100vh" }}>
       <h2>무한스크롤</h2>
-      <VanillaWrapper title="#2" initiator={initiator} />
+      <h3>#2. Vanilla</h3>
+      <VanillaWrapper initiator={initiator} />
     </div>
   );
 }

@@ -1,5 +1,5 @@
 import { measureLines } from "#/utils/util";
-import VanillaWrapper from "../vanillaWrapper";
+import { VanillaWrapper } from "../vanillaWrapper";
 import cx from "./cx";
 
 const initiator = (wrapper: HTMLDivElement) => {
@@ -21,6 +21,11 @@ const initiator = (wrapper: HTMLDivElement) => {
 };
 
 function TextBox4V() {
-  return <VanillaWrapper title="#4" initiator={initiator} />;
+  return (
+    <>
+      <h3>#4. Vanilla</h3>
+      <VanillaWrapper initiator={initiator} />
+    </>
+  );
 }
 export default TextBox4V;

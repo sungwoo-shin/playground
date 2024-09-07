@@ -1,5 +1,5 @@
 import vanillaIntersectionObserverV2 from "#/hooks/vanilla/intersectionObserverV2";
-import VanillaWrapper from "../vanillaWrapper";
+import { VanillaWrapper } from "../vanillaWrapper";
 import cx from "./cx";
 import data from "./data";
 

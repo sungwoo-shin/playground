@@ -1,4 +1,4 @@
-import VanillaWrapper from "../vanillaWrapper";
+import { VanillaWrapper } from "../vanillaWrapper";
 import cx from "./cx";
 import data from "./data";
 
@@ -58,7 +58,12 @@ const initiator = (wrapper: HTMLDivElement) => {
 };
 
 function TabMenu4V() {
-  return <VanillaWrapper title="#4" initiator={initiator} />;
+  return (
+    <>
+      <h3>#4. Vanilla</h3>
+      <VanillaWrapper initiator={initiator} />;
+    </>
+  );
 }
 
 export default TabMenu4V;

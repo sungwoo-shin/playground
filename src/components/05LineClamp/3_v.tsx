@@ -1,4 +1,4 @@
-import VanillaWrapper from "../vanillaWrapper";
+import { VanillaWrapper } from "../vanillaWrapper";
 import cx from "./cx";
 import data from "./data";
 
@@ -69,6 +69,11 @@ const initiator = (wrapper: HTMLDivElement) => {
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
 function LineClamp3_V() {
-  return <VanillaWrapper initiator={initiator} title="#3" />;
+  return (
+    <>
+      <h3>#3. Vanilla</h3>
+      <VanillaWrapper initiator={initiator} />
+    </>
+  );
 }
 export default LineClamp3_V;

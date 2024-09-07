@@ -1,4 +1,4 @@
-import VanillaWrapper from "#/components/vanillaWrapper";
+import { VanillaWrapper } from "#/components/vanillaWrapper";
 import cx from "../cx";
 import data from "../data";
 import lazyLoad from "./lazyLoad";
@@ -31,7 +31,8 @@ function LazyLoad1_V() {
   return (
     <>
       <h2>지연로딩</h2>
-      <VanillaWrapper title="#2" initiator={initiator} />
+      <h3>#2. Vanilla</h3>
+      <VanillaWrapper initiator={initiator} />
     </>
   );
 }

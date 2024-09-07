@@ -1,4 +1,4 @@
-import VanillaWrapper from "../../vanillaWrapper";
+import { VanillaWrapper } from "../../vanillaWrapper";
 import vanillaScrollBox from "./scrollBox";
 
 const initiator = (wrapper: HTMLDivElement) => {
@@ -8,7 +8,12 @@ const initiator = (wrapper: HTMLDivElement) => {
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
 function ScrollBox_Vanilla() {
-  return <VanillaWrapper title="#2" initiator={initiator} />;
+  return (
+    <>
+      <h3>#2. Vanilla</h3>
+      <VanillaWrapper initiator={initiator} />
+    </>
+  );
 }
 
 export default ScrollBox_Vanilla;

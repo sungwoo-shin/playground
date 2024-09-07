@@ -1,4 +1,4 @@
-import VanillaWrapper from "#/components/vanillaWrapper";
+import { VanillaWrapper } from "#/components/vanillaWrapper";
 import { stringToDOM } from "#/utils/util";
 import { AlertModal, ConfirmModal } from "./modalComponents";
 
@@ -109,7 +109,8 @@ function ModalV() {
   return (
     <>
       <h2>모달</h2>
-      <VanillaWrapper title="#3" initiator={initiator} />
+      <h3>#3. vanilla</h3>
+      <VanillaWrapper initiator={initiator} />
     </>
   );
 }

@@ -1,6 +1,6 @@
 import { generateDOM } from "#/utils/util";
 import { lazyImageBuilder } from "../part1/vanillaLazyImage";
-import VanillaWrapper from "../vanillaWrapper";
+import { VanillaWrapper } from "../vanillaWrapper";
 import cx from "./cx";
 import data from "./data";
 
@@ -57,7 +57,10 @@ const initiator = (wrapper: HTMLDivElement) => {
 // eslint-disable-next-line @typescript-eslint/naming-convention
 function ImageSlide_Vanilla() {
   return (
-    <VanillaWrapper title="#1" subTitle="ul 좌표 이동" initiator={initiator} />
+    <>
+      <h3>#1. Vanilla - ul 좌표 이동</h3>
+      <VanillaWrapper initiator={initiator} />
+    </>
   );
 }
 

@@ -1,34 +1,19 @@
 import { useEffect, useRef } from "react";
 
-function VanillaWrapper({
-  title = "",
-  subTitle = "",
-  initiator,
-}: {
-  title?: string;
-  subTitle?: string;
+type TProps = {
   initiator: (wrapper: HTMLDivElement) => void;
-}) {
-  const wrapper = useRef<HTMLDivElement>(null);
-  const isInit = useRef(false);
+};
+
+export function VanillaWrapper({ initiator }: TProps) {
+  const wrapperRef = useRef<HTMLDivElement>(null);
+  const isInitializedRef = useRef(false);
 
   useEffect(() => {
-    if (!isInit.current && !!wrapper.current) {
-      initiator(wrapper.current);
-      isInit.current = true;
+    if (!isInitializedRef.current && wrapperRef.current) {
+      initiator(wrapperRef.current);
+      isInitializedRef.current = true;
     }
   }, [initiator]);
 
-  return (
-    <>
-      {title && (
-        <h3>
-          {title}. Vanilla {subTitle && <sub>{subTitle}</sub>}
-        </h3>
-      )}
-      <div ref={wrapper} />
-    </>
-  );
+  return <div ref={wrapperRef} />;
 }
-
-export default VanillaWrapper;

@@ -1,4 +1,4 @@
-import VanillaWrapper from "../vanillaWrapper";
+import { VanillaWrapper } from "../vanillaWrapper";
 import cx from "./cx";
 import data from "./data";
 
@@ -36,7 +36,12 @@ const initiator = (wrapper: HTMLDivElement) => {
 };
 
 function Tooltip5V() {
-  return <VanillaWrapper title="#5" initiator={initiator} />;
+  return (
+    <>
+      <h3>#5. Vanilla</h3>
+      <VanillaWrapper initiator={initiator} />;
+    </>
+  );
 }
 
 export default Tooltip5V;
