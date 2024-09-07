@@ -19,7 +19,7 @@ function AccordionItem({
   onOpenToggle,
 }: TAccordionItemProps) {
   return (
-    <li className={cx("item", "item2", { current: open })} key={id}>
+    <li className={cx("item", "item3", { current: open })} key={id}>
       <div className={cx("tab")} onClick={onOpenToggle}>
         {title}
       </div>
@@ -28,7 +28,7 @@ function AccordionItem({
   );
 }
 
-export function Accordion2R() {
+export function Accordion3R() {
   const [openId, setOpenId] = useState<string | null>(data[0].id);
 
   const handleOpenToggle = (id: string) => () => {
@@ -37,7 +37,7 @@ export function Accordion2R() {
 
   return (
     <>
-      <h3>#2. React - css로 hidden/show 처리</h3>
+      <h3>#3. React - css animation (transition)</h3>
       <ul className={cx("container")}>
         {data.map(({ description, id, title }) => (
           <AccordionItem

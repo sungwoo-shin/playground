@@ -3,7 +3,7 @@ import { useState } from "react";
 import cx from "./cx";
 import { data } from "./data";
 
-type AccordionItemProps = {
+type TAccordionItemProps = {
   id: string;
   title: string;
   description: string;
@@ -17,7 +17,7 @@ function AccordionItem({
   description,
   open,
   onOpenToggle,
-}: AccordionItemProps) {
+}: TAccordionItemProps) {
   return (
     <li className={cx("item", { current: open })} key={id}>
       <div className={cx("tab")} onClick={onOpenToggle}>
