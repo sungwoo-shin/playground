@@ -1,4 +1,4 @@
-const data = [
+export const data = [
   {
     id: "6573c0e5001221fbdec2f76c",
     title:
@@ -27,5 +27,3 @@ const data = [
       "Sunt dolore nostrud laborum eiusmod est amet non nostrud consectetur. Qui quis reprehenderit ad ipsum ea et esse reprehenderit cupidatat minim qui proident officia. Ea mollit aliqua nisi consequat adipisicing. Culpa laboris nulla occaecat sunt nulla anim nulla do cillum cupidatat veniam. Ut cillum ipsum officia duis ea est elit occaecat elit duis proident.\r\nUllamco qui adipisicing sint eu id aliqua qui sit duis anim irure quis. Reprehenderit in minim eu nostrud incididunt duis minim id sit. Esse reprehenderit aute velit cillum eiusmod aliquip. Commodo ut Lorem minim sint do ipsum adipisicing adipisicing aliquip nostrud. Culpa veniam elit nostrud ullamco.\r\n",
   },
 ];
-
-export default data;

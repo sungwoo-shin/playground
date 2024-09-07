@@ -1,5 +1,5 @@
-import cx from "./cx";
-import data from "./data";
+import { cx } from "./cx";
+import { data } from "./data";
 
 function TabItem({
   id,
