@@ -1,9 +1,6 @@
 import { useRef } from "react";
 
-import {
-  useViewportRect,
-  ViewportRectContextProvider,
-} from "../../contexts/ViewportRectContextProvider";
+import { ViewportRectContextProvider } from "../../contexts/ViewportRectContextProvider";
 import { cx } from "./cx";
 import { data } from "./data";
 import useStyleInView from "./useStyleInView";
@@ -25,10 +22,6 @@ function Tooltip({ id, title, description }: TProps) {
   const wrapperRef = useRef<HTMLDetailsElement>(null);
   const targetRef = useRef<HTMLDivElement>(null);
   const style = useStyleInView(wrapperRef, targetRef, tooltipPosition);
-
-  const viewportRect = useViewportRect();
-
-  console.log("viewportRect: ", viewportRect);
 
   return (
     <details className={cx("details")} data-tooltip={id} ref={wrapperRef}>
