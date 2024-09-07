@@ -2,15 +2,7 @@ import { VanillaWrapper } from "../vanillaWrapper";
 import { cx } from "./cx";
 import { data } from "./data";
 
-const itemBuilder = ({
-  id,
-  title,
-  description,
-}: {
-  id: string;
-  title: string;
-  description: string;
-}) => {
+const buildItem = (id: string, title: string, description: string) => {
   const $li = document.createElement("li");
   $li.classList.add(cx("item"), cx("item3"));
   $li.setAttribute("data-id", id);
@@ -34,21 +26,23 @@ const initiator = (wrapper: HTMLDivElement) => {
   const $ul = document.createElement("ul");
   $ul.classList.add(cx("container"));
 
-  const $items = data.map(itemBuilder);
+  const $items = data.map(({ description, id, title }) =>
+    buildItem(id, title, description),
+  );
   $ul.append(...$items);
 
   const handleTabClick = (event: Event) => {
-    const $el = event.target as HTMLElement;
-    if (!$el.classList.contains(cx("tab"))) {
+    const $target = event.target as HTMLElement;
+    if (!$target.classList.contains(cx("tab"))) {
       return;
     }
 
-    const targetId = $el.parentElement!.dataset.id;
-    if (!targetId) {
+    const itemId = $target.parentElement!.dataset.id;
+    if (!itemId) {
       return;
     }
 
-    openId = targetId === openId ? null : targetId;
+    openId = itemId === openId ? null : itemId;
 
     $items.forEach(($item) => {
       $item.classList.toggle(cx("current"), openId === $item.dataset.id);
