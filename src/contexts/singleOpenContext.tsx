@@ -11,7 +11,11 @@ const SingleOpenContext = createContext<
   [string | null, Dispatch<SetStateAction<string | null>>]
 >([null, () => {}]);
 
-function SingleOpenContextProvider({ children }: { children: ReactNode }) {
+export function SingleOpenContextProvider({
+  children,
+}: {
+  children: ReactNode;
+}) {
   const state = useState<string | null>(null);
 
   return (
@@ -20,7 +24,6 @@ function SingleOpenContextProvider({ children }: { children: ReactNode }) {
     </SingleOpenContext.Provider>
   );
 }
-export default SingleOpenContextProvider;
 
 export const useSingleOpen = (id: string) => {
   const [currentId, dispatch] = useContext(SingleOpenContext);

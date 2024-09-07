@@ -1,4 +1,4 @@
-import { SyntheticEvent, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 import { cx } from "./cx";
 import { data } from "./data";
@@ -11,7 +11,7 @@ type TProps = {
 function Tooltip({ title, description }: TProps) {
   const [isOpen, setIsOpen] = useState(false);
 
-  const handleOpen = (event: SyntheticEvent) => {
+  const handleOpen: React.MouseEventHandler<HTMLButtonElement> = (event) => {
     // !
     event.stopPropagation();
     setIsOpen((prev) => !prev);

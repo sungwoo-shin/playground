@@ -1,35 +1,33 @@
-/* eslint-disable jsx-a11y/no-static-element-interactions */
-/* eslint-disable jsx-a11y/click-events-have-key-events */
 import { useEffect } from "react";
 
 import { cx } from "./cx";
 import { data } from "./data";
 
-function Tooltip({
-  id,
-  title,
-  description,
-}: {
+type TProps = {
   id: string;
   title: string;
   description: string;
-}) {
+};
+
+function Tooltip({ id, title, description }: TProps) {
   return (
     <details className={cx("details")} data-tooltip={id}>
-      <summary className={cx("summary")} data-tooltip-summary>
-        {title}
-      </summary>
-      <div className={cx("tooltip")} onClick={(e) => e.stopPropagation()}>
+      <summary className={cx("summary")}>{title}</summary>
+      <div
+        className={cx("tooltip")}
+        onClick={(event) => event.stopPropagation()}
+      >
         {description}
       </div>
     </details>
   );
 }
 
-function Tooltip3() {
+export function Tooltip3R() {
   useEffect(() => {
-    const closeAllTooltip = (e: Event) => {
-      const target = e.target as HTMLElement;
+    const closeAllTooltip = (event: MouseEvent) => {
+      const target = event.target as HTMLElement;
+
       document.querySelectorAll("[data-tooltip]").forEach((elem) => {
         if (elem !== target.parentElement) {
           elem.removeAttribute("open");
@@ -45,14 +43,10 @@ function Tooltip3() {
 
   return (
     <>
-      <h3>
-        #3. React<sub>html details 태그 사용 (Good)</sub>
-      </h3>
-      {data.map((d) => (
-        <Tooltip {...d} key={d.id} />
+      <h3>#3. React - html details 태그 사용 (Good)</h3>
+      {data.map(({ description, id, title }) => (
+        <Tooltip key={id} description={description} id={id} title={title} />
       ))}
     </>
   );
 }
-
-export default Tooltip3;
