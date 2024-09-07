@@ -3,8 +3,8 @@
 import { useRef } from "react";
 
 import ViewportContextProvider from "../../contexts/viewportContext";
-import cx from "./cx";
-import data from "./data";
+import { cx } from "./cx";
+import { data } from "./data";
 import useStyleInView from "./useStyleInView";
 
 const tooltipPosition = {

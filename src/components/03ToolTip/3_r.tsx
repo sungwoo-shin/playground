@@ -2,8 +2,8 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import { useEffect } from "react";
 
-import cx from "./cx";
-import data from "./data";
+import { cx } from "./cx";
+import { data } from "./data";
 
 function Tooltip({
   id,
@@ -46,7 +46,7 @@ function Tooltip3() {
   return (
     <>
       <h3>
-        #3. React<sub>html details 태그 사용</sub>
+        #3. React<sub>html details 태그 사용 (Good)</sub>
       </h3>
       {data.map((d) => (
         <Tooltip {...d} key={d.id} />
