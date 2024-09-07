@@ -2,7 +2,7 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import { useEffect, useRef, useState } from "react";
 
-import cx from "./cx";
+import { cx } from "./cx";
 import { data } from "./data";
 
 function AccordionItem({

@@ -1,4 +1,4 @@
-import cx from "./cx";
+import { cx } from "./cx";
 import { data } from "./data";
 
 function AccordionItem({

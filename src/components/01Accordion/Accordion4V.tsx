@@ -1,5 +1,5 @@
 import { VanillaWrapper } from "../vanillaWrapper";
-import cx from "./cx";
+import { cx } from "./cx";
 import { data } from "./data";
 
 const itemBuilder = ({
@@ -29,13 +29,16 @@ const itemBuilder = ({
 };
 
 const initiator = (wrapper: HTMLDivElement) => {
-  let currentId: string | null = null;
+  let openId: string | null = null;
 
   const $ul = document.createElement("ul");
   $ul.classList.add(cx("container"));
 
-  const handleClickTab = (e: Event) => {
-    const $el = e.target as HTMLElement;
+  const $items = data.map(itemBuilder);
+  $ul.append(...$items);
+
+  const handleTabClick = (event: Event) => {
+    const $el = event.target as HTMLElement;
     if (!$el.classList.contains(cx("tab"))) {
       return;
     }
@@ -45,19 +48,15 @@ const initiator = (wrapper: HTMLDivElement) => {
       return;
     }
 
-    currentId = targetId === currentId ? null : targetId;
+    openId = targetId === openId ? null : targetId;
 
-    // eslint-disable-next-line @typescript-eslint/no-use-before-define
     $items.forEach(($item) => {
-      $item.classList.toggle(cx("current"), currentId === $item.dataset.id);
+      $item.classList.toggle(cx("current"), openId === $item.dataset.id);
     });
   };
-  $ul.addEventListener("click", handleClickTab);
+  $ul.addEventListener("click", handleTabClick);
 
-  const $items = data.map(itemBuilder);
-  $ul.append(...$items);
   ($items[0].children[0] as HTMLElement).click();
-
   wrapper.append($ul);
 };
 
