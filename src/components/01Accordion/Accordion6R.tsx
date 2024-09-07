@@ -34,7 +34,6 @@ function AccordionItem({ id, title, description, open, onOpenToggle }: TProps) {
         // @ts-expect-error expected
         hidden={open ? undefined : "until-found"}
       >
-        asdf
         {description}
       </div>
     </li>
