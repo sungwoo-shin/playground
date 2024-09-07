@@ -1,4 +1,4 @@
-import Tooltip4 from "./4_r";
+import { Tooltip4 } from "./4_r";
 import Tooltip5V from "./5_v";
 import { cx } from "./cx";
 import { Tooltip1R } from "./Tooltip1R";

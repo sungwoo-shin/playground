@@ -2,7 +2,7 @@
 import { useRef, useState } from "react";
 
 import useInfiniteScroll from "#/components/part1/useInfiniteScroll";
-import ViewportContextProvider from "#/contexts/viewportContext";
+import { ViewportRectContextProvider } from "#/contexts/ViewportRectContextProvider";
 import cx from "../cx";
 import MenuPopover from "./menuPopover";
 
@@ -42,7 +42,7 @@ function Popover2() {
   const { data, state, moreRef } = useInfiniteScroll();
 
   return (
-    <ViewportContextProvider>
+    <ViewportRectContextProvider>
       <div className={cx("Popovers")}>
         <h2>팝오버</h2>
         <h3>
@@ -58,7 +58,7 @@ function Popover2() {
         {state === "loading" && <div>Loading...</div>}
       </div>
       <div id="popoverRoot" />
-    </ViewportContextProvider>
+    </ViewportRectContextProvider>
   );
 }
 

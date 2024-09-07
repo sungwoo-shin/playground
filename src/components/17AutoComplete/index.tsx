@@ -1,4 +1,4 @@
-import ViewportContextProvider from "#/contexts/viewportContext";
+import { ViewportRectContextProvider } from "#/contexts/ViewportRectContextProvider";
 import Autocomplete1 from "./1_r";
 import Autocomplete2 from "./2_r";
 import cx from "./cx";
@@ -6,7 +6,7 @@ import cx from "./cx";
 function Autocompletes() {
   return (
     <div className={cx("AutoComplete")}>
-      <ViewportContextProvider>
+      <ViewportRectContextProvider>
         <h2>자동완성</h2>
         <Autocomplete1 />
         <p>-</p>
@@ -28,7 +28,7 @@ function Autocompletes() {
         <p>-</p>
 
         <div id="popoverRoot" />
-      </ViewportContextProvider>
+      </ViewportRectContextProvider>
     </div>
   );
 }

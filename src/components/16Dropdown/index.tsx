@@ -1,4 +1,4 @@
-import ViewportContextProvider from "#/contexts/viewportContext";
+import { ViewportRectContextProvider } from "#/contexts/ViewportRectContextProvider";
 import Dropdown1 from "./1_r";
 import Dropdown2 from "./2_r";
 import Dropdown3 from "./3_r";
@@ -7,7 +7,7 @@ import Dropdown5 from "./5_r";
 
 function Dropdowns() {
   return (
-    <ViewportContextProvider>
+    <ViewportRectContextProvider>
       <h2>드롭다운(셀렉트박스)</h2>
       <Dropdown1 />
       <Dropdown2 />
@@ -15,7 +15,7 @@ function Dropdowns() {
       <Dropdown4 />
       <Dropdown5 />
       <div id="popoverRoot" />
-    </ViewportContextProvider>
+    </ViewportRectContextProvider>
   );
 }
 

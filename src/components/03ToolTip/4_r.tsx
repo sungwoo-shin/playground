@@ -1,8 +1,9 @@
-/* eslint-disable jsx-a11y/no-static-element-interactions */
-/* eslint-disable jsx-a11y/click-events-have-key-events */
 import { useRef } from "react";
 
-import ViewportContextProvider from "../../contexts/viewportContext";
+import {
+  useViewportRect,
+  ViewportRectContextProvider,
+} from "../../contexts/ViewportRectContextProvider";
 import { cx } from "./cx";
 import { data } from "./data";
 import useStyleInView from "./useStyleInView";
@@ -14,18 +15,20 @@ const tooltipPosition = {
   right: 0,
 };
 
-function Tooltip({
-  id,
-  title,
-  description,
-}: {
+type TProps = {
   id: string;
   title: string;
   description: string;
-}) {
+};
+
+function Tooltip({ id, title, description }: TProps) {
   const wrapperRef = useRef<HTMLDetailsElement>(null);
   const targetRef = useRef<HTMLDivElement>(null);
   const style = useStyleInView(wrapperRef, targetRef, tooltipPosition);
+
+  const viewportRect = useViewportRect();
+
+  console.log("viewportRect: ", viewportRect);
 
   return (
     <details className={cx("details")} data-tooltip={id} ref={wrapperRef}>
@@ -34,7 +37,7 @@ function Tooltip({
       </summary>
       <div
         className={cx("tooltip")}
-        onClick={(e) => e.stopPropagation()}
+        onClick={(event) => event.stopPropagation()}
         ref={targetRef}
         style={style}
       >
@@ -44,18 +47,15 @@ function Tooltip({
   );
 }
 
-function Tooltip4() {
+export function Tooltip4() {
   return (
-    <ViewportContextProvider>
+    <ViewportRectContextProvider>
       <>
-        <h3>
-          #4. React<sub>화면 영역 안에 있도록 처리</sub>
-        </h3>
-        {data.map((d) => (
-          <Tooltip {...d} key={d.id} />
+        <h3>#4. React - 화면 영역 안에 있도록 처리</h3>
+        {data.map(({ description, id, title }) => (
+          <Tooltip key={id} description={description} id={id} title={title} />
         ))}
       </>
-    </ViewportContextProvider>
+    </ViewportRectContextProvider>
   );
 }
-export default Tooltip4;

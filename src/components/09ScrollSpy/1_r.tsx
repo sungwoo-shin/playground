@@ -1,9 +1,10 @@
 /* eslint-disable react/button-has-type */
 import { useCallback, useEffect, useRef, useState } from "react";
 
-import ViewportContextProvider, {
+import {
   useViewportRect,
-} from "#/contexts/viewportContext";
+  ViewportRectContextProvider,
+} from "#/contexts/ViewportRectContextProvider";
 import cx from "./cx";
 import data from "./data";
 
@@ -133,9 +134,9 @@ function ScrollSpy() {
 
 function ScrollSpy1() {
   return (
-    <ViewportContextProvider>
+    <ViewportRectContextProvider>
       <ScrollSpy />
-    </ViewportContextProvider>
+    </ViewportRectContextProvider>
   );
 }
 export default ScrollSpy1;
