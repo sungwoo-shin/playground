@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 
 import cx from "./cx";
-import data from "./data";
+import { data } from "./data";
 
 function AccordionItem({
   id,

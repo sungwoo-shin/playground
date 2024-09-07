@@ -1,6 +1,6 @@
 import VanillaWrapper from "../vanillaWrapper";
 import cx from "./cx";
-import data from "./data";
+import { data } from "./data";
 
 const itemBuilder = ({
   id,
