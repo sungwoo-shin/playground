@@ -64,7 +64,7 @@ export function TabMenu4V() {
   return (
     <>
       <h3>#4. Vanilla</h3>
-      <VanillaWrapper initiator={initiator} />;
+      <VanillaWrapper initiator={initiator} />
     </>
   );
 }
