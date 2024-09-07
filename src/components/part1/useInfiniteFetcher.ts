@@ -1,6 +1,6 @@
 import { useCallback, useState } from "react";
 
-import { pickRandom, randomize, waitFor } from "#/service/util";
+import { pickRandom, randomize, waitFor } from "#/utils/util";
 
 export type Datum = {
   index: number;
