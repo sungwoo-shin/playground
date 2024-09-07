@@ -1,4 +1,3 @@
-import Accordion2 from "./2_r";
 import Accordion3 from "./3_r";
 import Accordion4V from "./4_v";
 import Accordion5 from "./5_r";
@@ -6,6 +5,7 @@ import Accordion6 from "./6_r";
 import Accordion7 from "./7_r";
 import Accordion8 from "./8_r";
 import { Accordion1R } from "./Accordion1R";
+import { Accordion2R } from "./Accordion2R";
 import cx from "./cx";
 
 function Accordions() {
@@ -13,7 +13,7 @@ function Accordions() {
     <div className={cx("Accordions")}>
       <h1>Accordion</h1>
       <Accordion1R />
-      <Accordion2 />
+      <Accordion2R />
       <Accordion3 />
       <Accordion4V />
       <Accordion5 />
