@@ -1,10 +1,10 @@
-import TabMenu5 from "./5_r";
 import TabMenu6 from "./6_r";
 import { cx } from "./cx";
 import { TabMenu1R } from "./TabMenu1R";
 import { TabMenu2R } from "./TabMenu2R";
 import { TabMenu3R } from "./TabMenu3R";
 import { TabMenu4V } from "./TabMenu4V";
+import { TabMenu5R } from "./TabMenu5R";
 
 export function TabMenu() {
   return (
@@ -14,7 +14,7 @@ export function TabMenu() {
       <TabMenu2R />
       <TabMenu3R />
       <TabMenu4V />
-      <TabMenu5 />
+      <TabMenu5R />
       <TabMenu6 />
     </div>
   );
