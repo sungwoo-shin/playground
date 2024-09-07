@@ -3,7 +3,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 
 import ViewportContextProvider, {
   useViewportRect,
-} from "#/context/viewportContext";
+} from "#/contexts/viewportContext";
 import cx from "./cx";
 import data from "./data";
 

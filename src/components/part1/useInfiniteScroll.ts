@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 
-import useIntersectionObserver from "#/hook/useIntersectionObserver";
+import useIntersectionObserver from "#/hooks/useIntersectionObserver";
 import useInfiniteFetcher from "./useInfiniteFetcher";
 
 const ioOptions = { threshold: 1 };

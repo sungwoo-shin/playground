@@ -2,7 +2,7 @@
 import { useRef, useState } from "react";
 
 import useInfiniteScroll from "#/components/part1/useInfiniteScroll";
-import ViewportContextProvider from "#/context/viewportContext";
+import ViewportContextProvider from "#/contexts/viewportContext";
 import cx from "../cx";
 import MenuPopover from "./menuPopover";
 

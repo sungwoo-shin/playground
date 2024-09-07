@@ -1,5 +1,5 @@
 import { lazyImageBuilder } from "#/components/06_lazyLoading/2_v";
-import vanillaIntersectionObserverV2 from "#/hook/vanilla/intersectionObserverV2";
+import vanillaIntersectionObserverV2 from "#/hooks/vanilla/intersectionObserverV2";
 import cx from "../cx";
 import data from "../data";
 

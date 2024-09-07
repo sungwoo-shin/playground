@@ -2,7 +2,7 @@
 import { KeyboardEvent, ReactNode, RefObject, useRef } from "react";
 import { createPortal } from "react-dom";
 
-import useStyleInView from "#/hook/useStyleInView";
+import useStyleInView from "#/hooks/useStyleInView";
 import cx from "../cx";
 import data from "../data";
 import useDropdown, {

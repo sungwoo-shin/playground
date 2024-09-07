@@ -5,7 +5,7 @@ import { SyntheticEvent, useEffect } from "react";
 
 import SingleOpenContextProvider, {
   useSingleOpen,
-} from "../../context/singleOpenContext";
+} from "../../contexts/singleOpenContext";
 import cx from "./cx";
 import data from "./data";
 

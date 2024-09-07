@@ -10,7 +10,7 @@ import {
   useState,
 } from "react";
 
-import useIntersectionObserver from "#/hook/useIntersectionObserverV2";
+import useIntersectionObserver from "#/hooks/useIntersectionObserverV2";
 import cx from "../cx";
 
 type Direction = "prev" | "next";

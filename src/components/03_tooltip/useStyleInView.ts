@@ -1,6 +1,6 @@
 import { RefObject, useLayoutEffect, useState } from "react";
 
-import { useViewportRect } from "#/context/viewportContext";
+import { useViewportRect } from "#/contexts/viewportContext";
 
 type PositionKey = "left" | "right" | "top" | "bottom";
 type Position = Partial<Record<PositionKey, string | number>>;

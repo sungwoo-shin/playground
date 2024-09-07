@@ -11,7 +11,7 @@ import {
 } from "react";
 import classNames from "classnames/bind";
 
-import useIntersectionObserver from "#/hook/useIntersectionObserverV2";
+import useIntersectionObserver from "#/hooks/useIntersectionObserverV2";
 import styles from "./scrollBox.module.scss";
 
 const cx = classNames.bind(styles);

@@ -2,7 +2,7 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import { RefObject, useRef } from "react";
 
-import useStyleInView from "#/hook/useStyleInView";
+import useStyleInView from "#/hooks/useStyleInView";
 import cx from "../cx";
 
 const menuPosition = {

@@ -1,7 +1,7 @@
 /* eslint-disable react/button-has-type */
 import { useCallback, useEffect, useRef, useState } from "react";
 
-import useIntersectionObserver from "#/hook/useIntersectionObserverV2";
+import useIntersectionObserver from "#/hooks/useIntersectionObserverV2";
 import cx from "./cx";
 import data from "./data";
 

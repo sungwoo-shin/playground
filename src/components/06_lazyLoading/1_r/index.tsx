@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 
-import useIntersectionObserver from "#/hook/useIntersectionObserver";
+import useIntersectionObserver from "#/hooks/useIntersectionObserver";
 import cx from "../cx";
 import data from "../data";
 

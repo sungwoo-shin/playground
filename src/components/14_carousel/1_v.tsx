@@ -1,4 +1,4 @@
-import { generateDOM } from "#/service/util";
+import { generateDOM } from "#/utils/util";
 import VanillaWrapper from "../vanillaWrapper";
 import cx from "./cx";
 import data from "./data";

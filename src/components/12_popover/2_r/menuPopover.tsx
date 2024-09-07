@@ -3,7 +3,7 @@
 import { RefObject, useRef } from "react";
 import { createPortal } from "react-dom";
 
-import useStyleInView from "#/hook/useStyleInView";
+import useStyleInView from "#/hooks/useStyleInView";
 import cx from "../cx";
 
 const menuPosition = {

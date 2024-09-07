@@ -1,5 +1,5 @@
 import VanillaWrapper from "#/components/vanillaWrapper";
-import vanillaIntersectionObserver from "#/hook/vanilla/intersectionObserver";
+import vanillaIntersectionObserver from "#/hooks/vanilla/intersectionObserver";
 import cx from "../cx";
 import infinitePageFetcher, { Datum, FetchState } from "./infiniteFetcher";
 

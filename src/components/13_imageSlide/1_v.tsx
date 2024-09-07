@@ -1,4 +1,4 @@
-import { generateDOM } from "#/service/util";
+import { generateDOM } from "#/utils/util";
 import { lazyImageBuilder } from "../part1/vanillaLazyImage";
 import VanillaWrapper from "../vanillaWrapper";
 import cx from "./cx";

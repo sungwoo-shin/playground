@@ -1,6 +1,6 @@
 import classNames from "classnames/bind";
 
-import vanillaIntersectionObserver from "#/hook/vanilla/intersectionObserver";
+import vanillaIntersectionObserver from "#/hooks/vanilla/intersectionObserver";
 import style from "./lazyImage.module.scss";
 
 const cx = classNames.bind(style);

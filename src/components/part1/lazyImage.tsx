@@ -1,7 +1,7 @@
 import { RefObject, useEffect, useRef, useState } from "react";
 import classNames from "classnames/bind";
 
-import useIntersectionObserver from "#/hook/useIntersectionObserver";
+import useIntersectionObserver from "#/hooks/useIntersectionObserver";
 import style from "./lazyImage.module.scss";
 
 const cx = classNames.bind(style);
