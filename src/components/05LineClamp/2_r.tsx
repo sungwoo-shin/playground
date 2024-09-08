@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 
-import cx from "./cx";
-import data from "./data";
+import { cx } from "./cx";
+import { data } from "./data";
 
 function LineClampedText({ text, lines }: { text: string; lines: number }) {
   const cloneRef = useRef<HTMLDivElement>(null);

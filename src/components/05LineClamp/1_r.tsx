@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 
 import { measureRows } from "#/utils/measureLines";
-import cx from "./cx";
-import data from "./data";
+import { cx } from "./cx";
+import { data } from "./data";
 
 function LineClampedText({ text }: { text: string }) {
   const elemRef = useRef<HTMLDivElement>(null);

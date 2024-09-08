@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 
-import LineClamp from ".";
+import { LineClamp } from ".";
 
 const meta = {
   component: LineClamp,

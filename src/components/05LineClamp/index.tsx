@@ -2,9 +2,9 @@
 import LineClamp1 from "./1_r";
 import LineClamp2 from "./2_r";
 import LineClamp3_V from "./3_v";
-import cx from "./cx";
+import { cx } from "./cx";
 
-function LineClamps() {
+export function LineClamp() {
   return (
     <div className={cx("LineClamps")}>
       <h2>여러줄 말줄임</h2>
@@ -14,5 +14,3 @@ function LineClamps() {
     </div>
   );
 }
-
-export default LineClamps;

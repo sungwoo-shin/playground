@@ -1,4 +1,4 @@
-const data = [
+export const data = [
   `Lorem ipsum dolor sit amet consectetur adipisicing elit. 
 Veniam beatae dolores commodi consequatur expedita minus aut blanditiis pariatur fuga error optio delectus, 
 nesciunt voluptatem magni debitis, nihil voluptatum autem eum.
@@ -21,5 +21,3 @@ Veniam beatae dolores commodi consequatur expedita minus aut blanditiis pariatur
 
   `Dolorum iure debitis tempore, voluptas enim maxime voluptate in, voluptatem omnis facilis asperiores distinctio eius necessitatibus placeat autem quod cumque suscipit nulla non quaerat odio iste atque consequuntur eveniet. Natus.`,
 ];
-
-export default data;
