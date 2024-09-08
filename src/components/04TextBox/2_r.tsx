@@ -1,13 +1,13 @@
 import { SyntheticEvent } from "react";
 
-import { measureLines } from "#/utils/util";
-import cx from "./cx";
+import { measureRows } from "#/utils/measureLines";
+import { cx } from "./cx";
 
 function TextBox2() {
   const handleChange = (e: SyntheticEvent) => {
     const elem = e.target as HTMLTextAreaElement;
     const val = elem.value;
-    const lines = Math.min(Math.max(measureLines(elem, val), 3), 15); // 최소3줄 최대15줄
+    const lines = Math.min(Math.max(measureRows(elem, val), 3), 15); // 최소3줄 최대15줄
     elem.rows = lines;
   };
 

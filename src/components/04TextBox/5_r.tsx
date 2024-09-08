@@ -6,7 +6,7 @@ import {
   useState,
 } from "react";
 
-import cx from "./cx";
+import { cx } from "./cx";
 
 type TextBoxProps = {
   minRow: number;

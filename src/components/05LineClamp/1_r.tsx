@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 
-import { measureLines } from "#/utils/util";
+import { measureRows } from "#/utils/measureLines";
 import cx from "./cx";
 import data from "./data";
 
@@ -10,7 +10,7 @@ function LineClampedText({ text }: { text: string }) {
 
   useEffect(() => {
     if (text && elemRef.current) {
-      const measuredLines = measureLines(elemRef.current, text);
+      const measuredLines = measureRows(elemRef.current, text);
       toggleClamped(measuredLines > 3);
     }
   }, [text]);

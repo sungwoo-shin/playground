@@ -1,6 +1,6 @@
-import { measureLines } from "#/utils/util";
+import { measureRows } from "#/utils/measureLines";
 import { VanillaWrapper } from "../vanillaWrapper";
-import cx from "./cx";
+import { cx } from "./cx";
 
 const initiator = (wrapper: HTMLDivElement) => {
   const $text = document.createElement("textarea");
@@ -9,7 +9,7 @@ const initiator = (wrapper: HTMLDivElement) => {
 
   const handleInput = () => {
     const val = $text.value;
-    const lines = Math.min(Math.max(measureLines($text, val), 3), 15); // 최소3줄 최대15줄
+    const lines = Math.min(Math.max(measureRows($text, val), 3), 15); // 최소3줄 최대15줄
     $text.rows = lines;
   };
   $text.addEventListener("input", handleInput);

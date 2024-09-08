@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 
-import cx from "./cx";
+import { cx } from "./cx";
 
 function TextBox3() {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
