@@ -1,33 +1,29 @@
 import { RefObject, useEffect, useRef, useState } from "react";
 
-type Elem = Element | null;
+import { assertIsDefined } from "#/utils/assetIsDefined";
 
-const useIntersectionObserver = (
-  elemRef: RefObject<Elem>,
-  options: IntersectionObserverInit = { threshold: 0 },
+export const useIntersectionObserver = (
+  target: RefObject<HTMLElement>,
+  stableOptions?: IntersectionObserverInit,
 ) => {
-  const observerRef = useRef<IntersectionObserver>();
-  const [entries, setEntries] = useState<IntersectionObserverEntry[]>([]);
+  const ioRef = useRef<IntersectionObserver>();
+  const [ioEntries, setIoEntries] = useState<IntersectionObserverEntry[]>([]);
 
   useEffect(() => {
-    const node = elemRef.current;
-    if (!node) {
-      return;
-    }
+    const targetElem = target.current;
+    assertIsDefined(targetElem);
 
-    observerRef.current = new IntersectionObserver(setEntries, options);
-    observerRef.current.observe(node);
+    ioRef.current = new IntersectionObserver(setIoEntries, stableOptions);
 
-    // eslint-disable-next-line consistent-return
+    ioRef.current.observe(targetElem);
+
     return () => {
-      observerRef.current?.disconnect();
+      ioRef.current?.disconnect();
     };
-  }, [elemRef, options]);
+  }, [target, stableOptions]);
 
   return {
-    entries,
-    observerRef,
+    ioEntries,
+    ioRef,
   };
 };
-
-export default useIntersectionObserver;

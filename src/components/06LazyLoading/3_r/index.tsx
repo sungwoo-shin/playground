@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 
-import useIntersectionObserver from "#/hooks/useIntersectionObserver";
-import cx from "../cx";
-import data from "../data";
+import { useIntersectionObserver } from "#/hooks/useIntersectionObserver";
+import { cx } from "../cx";
+import { data } from "../data";
 
 const ioOptions: IntersectionObserverInit = {
   threshold: 0,
@@ -46,7 +46,10 @@ function LazyImage({
 }) {
   const imgRef = useRef<HTMLImageElement>(null);
   const [loaded, setLoaded] = useState(false);
-  const { entries, observerRef } = useIntersectionObserver(imgRef, ioOptions);
+  const { ioEntries: entries, ioRef: observerRef } = useIntersectionObserver(
+    imgRef,
+    ioOptions,
+  );
 
   const onLoad = () => {
     setLoaded(true);

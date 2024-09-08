@@ -1,7 +1,7 @@
 import { RefObject, useEffect, useRef, useState } from "react";
 import classNames from "classnames/bind";
 
-import useIntersectionObserver from "#/hooks/useIntersectionObserver";
+import { useIntersectionObserver } from "#/hooks/useIntersectionObserver";
 import style from "./lazyImage.module.scss";
 
 const cx = classNames.bind(style);
@@ -51,7 +51,10 @@ export function LazyLoadImage({
   const [loaded, setLoaded] = useState(false);
 
   ioOptions.root = rootElemRef?.current ?? null;
-  const { entries, observerRef } = useIntersectionObserver(imgRef, ioOptions);
+  const { ioEntries: entries, ioRef: observerRef } = useIntersectionObserver(
+    imgRef,
+    ioOptions,
+  );
 
   const onLoad = () => {
     setLoaded(true);

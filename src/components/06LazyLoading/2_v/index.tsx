@@ -1,6 +1,6 @@
 import { VanillaWrapper } from "#/components/vanillaWrapper";
-import cx from "../cx";
-import data from "../data";
+import { cx } from "../cx";
+import { data } from "../data";
 import lazyLoad from "./lazyLoad";
 
 export const lazyImageBuilder = (

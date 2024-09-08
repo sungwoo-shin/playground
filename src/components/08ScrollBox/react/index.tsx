@@ -1,6 +1,6 @@
 import { useRef } from "react";
 
-import { LazyImage } from "#/components/06LazyLoading/1_r";
+import { LazyImage } from "#/components/06LazyLoading/1_r/LazyLoading1R";
 import data from "../data";
 import ScrollBox from "./scrollBox";
 

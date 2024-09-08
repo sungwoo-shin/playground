@@ -1,4 +1,4 @@
-const data = [
+export const data = [
   "https://loremflickr.com/600/320?lock=1",
   "https://loremflickr.com/600/320?lock=2",
   "https://loremflickr.com/600/320?lock=3",
@@ -60,5 +60,3 @@ const data = [
   "https://loremflickr.com/600/320?lock=59",
   "https://loremflickr.com/600/320?lock=60",
 ];
-
-export default data;
