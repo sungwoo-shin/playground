@@ -4,7 +4,6 @@ import { LineClamp } from ".";
 
 const meta = {
   component: LineClamp,
-  tags: ["autodocs"],
 } satisfies Meta<typeof LineClamp>;
 
 export default meta;
