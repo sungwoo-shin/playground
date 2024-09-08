@@ -12,12 +12,11 @@ export function TextBox1R() {
 
   const handleChange = ({ target }: React.ChangeEvent<HTMLTextAreaElement>) => {
     setValue(target.value);
-
-    const newLines = Math.min(
+    const newRows = Math.min(
       Math.max(measureRows(target, target.value), MIN_ROWS),
       MAX_ROWS,
     );
-    setRows(newLines);
+    setRows(newRows);
   };
 
   return (
