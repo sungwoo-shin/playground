@@ -1,9 +1,9 @@
-import TextBox5 from "./5_r";
 import { cx } from "./cx";
 import { TextBox1R } from "./TextBox1R";
 import { TextBox2R } from "./TextBox2R";
 import { TextBox3R } from "./TextBox3R";
 import { TextBox4V } from "./TextBox4V";
+import { TextBox5R } from "./TextBox5R";
 
 export function TextBox() {
   return (
@@ -13,7 +13,7 @@ export function TextBox() {
       <TextBox2R />
       <TextBox3R />
       <TextBox4V />
-      <TextBox5 />
+      <TextBox5R />
     </div>
   );
 }
