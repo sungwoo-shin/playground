@@ -1,4 +1,4 @@
-import { measureRows } from "#/utils/measureLines";
+import { measureRows } from "#/utils/measureRows";
 import { cx } from "./cx";
 
 const MIN_ROWS = 3;

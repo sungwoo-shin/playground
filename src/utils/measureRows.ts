@@ -9,9 +9,9 @@ export const measureRows = (target: HTMLElement, value: string) => {
 
   return value
     .split("\n")
-    .map((line) =>
+    .map((row) =>
       Math.max(
-        Math.ceil(canvasContext.measureText(line).width / target.offsetWidth),
+        Math.ceil(canvasContext.measureText(row).width / target.offsetWidth),
         1,
       ),
     )

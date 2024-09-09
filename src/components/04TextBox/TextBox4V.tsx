@@ -1,4 +1,4 @@
-import { measureRows } from "#/utils/measureLines";
+import { measureRows } from "#/utils/measureRows";
 import { VanillaWrapper } from "../vanillaWrapper";
 import { cx } from "./cx";
 

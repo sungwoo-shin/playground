@@ -1,6 +1,6 @@
 import { useRef, useState } from "react";
 
-import { measureRows } from "#/utils/measureLines";
+import { measureRows } from "#/utils/measureRows";
 import { cx } from "./cx";
 import { data } from "./data";
 
