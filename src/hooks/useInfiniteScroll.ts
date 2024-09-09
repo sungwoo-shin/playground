@@ -11,7 +11,8 @@ export const useInfiniteScroll = () => {
   const {
     ioEntries: [entry],
   } = useIntersectionObserver(sensorRef, ioOptions);
-  const { isIntersecting } = entry;
+
+  const isIntersecting = entry?.isIntersecting;
 
   useEffect(() => {
     if (isIntersecting) {

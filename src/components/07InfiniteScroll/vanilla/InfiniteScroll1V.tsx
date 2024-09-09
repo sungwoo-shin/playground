@@ -1,7 +1,34 @@
 import { VanillaWrapper } from "#/components/vanillaWrapper";
 import { vanillaIntersectionObserver } from "#/hooks/vanilla/intersectionObserver";
+import { pickRandom } from "#/utils/pickRandom";
+import { getRandomStepNumber } from "#/utils/randomize";
+import { waitFor } from "#/utils/util";
 import { cx } from "../cx";
-import { Datum, FetchState, infinitePageFetcher } from "./infiniteFetcher";
+import { data } from "../data";
+
+type Datum = {
+  index: number;
+  id: string;
+  title: string;
+  description: string;
+};
+
+type FetchState = "loading" | "fetched" | "idle" | "error";
+
+const getRandomPageData = async () => {
+  await waitFor(getRandomStepNumber(300, 1500, 50));
+  const randomPageData = pickRandom(data, 20);
+
+  return randomPageData;
+};
+
+const infinitePageFetcher = async (
+  callback: (state: FetchState, data?: Datum[]) => void,
+) => {
+  callback("loading");
+  const nextPageData = await getRandomPageData();
+  callback("fetched", nextPageData);
+};
 
 const generateListItem = (
   number: number,
@@ -29,7 +56,7 @@ const initiator = (wrapper: HTMLDivElement) => {
   let prevState: FetchState = "idle";
   let page = 0;
 
-  const handleFetch = (state: FetchState, data?: Datum[]) => {
+  const handleFetch = (state: FetchState, nextData?: Datum[]) => {
     if (prevState === state) {
       return;
     }
@@ -41,9 +68,9 @@ const initiator = (wrapper: HTMLDivElement) => {
       $spinner.remove();
     }
 
-    if (state === "fetched" && data) {
+    if (state === "fetched" && nextData) {
       page += 1;
-      const list = data.map((item, i) =>
+      const list = nextData.map((item, i) =>
         generateListItem((page - 1) * 20 + i + 1, item.title, item.description),
       );
       $list.append(...list);
@@ -51,7 +78,7 @@ const initiator = (wrapper: HTMLDivElement) => {
   };
 
   const handleIntersect = ([entry]: IntersectionObserverEntry[] = []) => {
-    const { isIntersecting } = entry;
+    const isIntersecting = entry?.isIntersecting;
     if (isIntersecting && prevState !== "loading") {
       infinitePageFetcher(handleFetch);
     }
