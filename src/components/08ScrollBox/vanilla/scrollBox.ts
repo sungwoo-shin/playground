@@ -1,4 +1,4 @@
-import { lazyImageBuilder } from "#/components/06LazyLoading/2_v";
+import { buildLazyImg } from "#/components/06LazyLoading/2_v/LazyLoad2V";
 import vanillaIntersectionObserverV2 from "#/hooks/vanilla/intersectionObserverV2";
 import cx from "../cx";
 import data from "../data";
@@ -18,7 +18,7 @@ const generateListItem = ({
   imgUrl: string;
 }) => {
   const $div = document.createElement("div");
-  const $lazyImage = lazyImageBuilder(imgUrl, 250, 400);
+  const $lazyImage = buildLazyImg(imgUrl, 250, 400);
   const $span = document.createElement("span");
   $span.textContent = description;
   $div.append($lazyImage, $span);

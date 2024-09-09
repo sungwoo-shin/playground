@@ -1,11 +1,11 @@
 import type { Meta, StoryObj } from "@storybook/react";
 
-import LazyLoading from "./2_v";
+import { LazyLoad2V } from "./2_v/LazyLoad2V";
 
 const meta = {
-  component: LazyLoading,
+  component: LazyLoad2V,
   tags: ["autodocs"],
-} satisfies Meta<typeof LazyLoading>;
+} satisfies Meta<typeof LazyLoad2V>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
