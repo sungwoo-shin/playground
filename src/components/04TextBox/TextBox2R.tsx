@@ -1,4 +1,4 @@
-import { measureRows } from "#/utils/measureRows";
+import { measureTextRows } from "#/utils/measureTextRows";
 import { cx } from "./cx";
 
 const MIN_ROWS = 3;
@@ -9,7 +9,7 @@ export function TextBox2R() {
     const eventTarget = event.target;
 
     const newRows = Math.min(
-      Math.max(measureRows(eventTarget, eventTarget.value), MIN_ROWS),
+      Math.max(measureTextRows(eventTarget, eventTarget.value), MIN_ROWS),
       MAX_ROWS,
     );
     eventTarget.rows = newRows;

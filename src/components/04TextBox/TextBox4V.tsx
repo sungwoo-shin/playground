@@ -1,4 +1,4 @@
-import { measureRows } from "#/utils/measureRows";
+import { measureTextRows } from "#/utils/measureTextRows";
 import { VanillaWrapper } from "../vanillaWrapper";
 import { cx } from "./cx";
 
@@ -12,7 +12,7 @@ const initiator = (wrapper: HTMLDivElement) => {
 
   const handleInput = () => {
     const newRows = Math.min(
-      Math.max(measureRows($textarea, $textarea.value), MIN_ROWS),
+      Math.max(measureTextRows($textarea, $textarea.value), MIN_ROWS),
       MAX_ROWS,
     );
     $textarea.rows = newRows;

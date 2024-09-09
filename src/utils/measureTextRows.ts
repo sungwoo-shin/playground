@@ -1,4 +1,4 @@
-export const measureRows = (target: HTMLElement, value: string) => {
+export const measureTextRows = (target: HTMLElement, value: string) => {
   const canvas = document.createElement("canvas");
   const canvasContext: CanvasRenderingContext2D = canvas.getContext("2d")!;
 

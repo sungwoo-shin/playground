@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import { measureRows } from "#/utils/measureRows";
+import { measureTextRows } from "#/utils/measureTextRows";
 import { cx } from "./cx";
 
 const MIN_ROWS = 3;
@@ -13,7 +13,7 @@ export function TextBox1R() {
   const handleChange = ({ target }: React.ChangeEvent<HTMLTextAreaElement>) => {
     setValue(target.value);
     const newRows = Math.min(
-      Math.max(measureRows(target, target.value), MIN_ROWS),
+      Math.max(measureTextRows(target, target.value), MIN_ROWS),
       MAX_ROWS,
     );
     setRows(newRows);

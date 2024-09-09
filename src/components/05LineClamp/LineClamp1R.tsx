@@ -1,6 +1,6 @@
 import { useRef, useState } from "react";
 
-import { measureRows } from "#/utils/measureRows";
+import { measureTextRows } from "#/utils/measureTextRows";
 import { cx } from "./cx";
 import { data } from "./data";
 
@@ -15,7 +15,7 @@ function LineClampedText({ text }: TProps) {
   const [isClamped, setIsClamped] = useState(true);
 
   if (textRef.current) {
-    const measuredLines = measureRows(textRef.current, text);
+    const measuredLines = measureTextRows(textRef.current, text);
     const newIsClamped = measuredLines > ROWS;
     if (isClamped && isClamped !== newIsClamped) {
       setIsClamped(newIsClamped);
