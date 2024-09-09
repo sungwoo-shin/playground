@@ -10,24 +10,18 @@ export type Datum = {
   description: string;
 };
 export type FetchState = "loading" | "fetched" | "idle" | "error";
-export type State<T> = {
-  data: T[][];
-  state: "loading" | "fetched" | "idle" | "error";
-};
 
-const generatePageData = async () => {
-  const randomData = pickRandom(data, 20);
+const getRandomPageData = async () => {
   await waitFor(getRandomStepNumber(300, 1500, 50));
+  const randomPageData = pickRandom(data, 20);
 
-  return randomData;
+  return randomPageData;
 };
 
-const infinitePageFetcher = async (
+export const infinitePageFetcher = async (
   callback: (state: FetchState, data?: Datum[]) => void,
 ) => {
   callback("loading");
-  const nextPageData = await generatePageData();
+  const nextPageData = await getRandomPageData();
   callback("fetched", nextPageData);
 };
-
-export default infinitePageFetcher;
