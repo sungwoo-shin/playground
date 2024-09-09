@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 
-import { InfiniteScroll1R } from "./react/InfiniteScrollR";
+import { InfiniteScroll1R } from "./react/InfiniteScroll1R";
 
 const meta: Meta = {};
 

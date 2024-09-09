@@ -1,6 +1,8 @@
 import { useCallback, useState } from "react";
 
-import { pickRandom, randomize, waitFor } from "#/utils/util";
+import { pickRandom } from "#/utils/pickRandom";
+import { getRandomStepNumber } from "#/utils/randomize";
+import { waitFor } from "#/utils/util";
 
 export type Datum = {
   index: number;
@@ -406,14 +408,8 @@ const mockData = [
 ];
 
 const generatePageData = async () => {
-  const randomData = pickRandom({ data: mockData, length: 20 });
-  await waitFor(
-    randomize({
-      min: 300,
-      max: 1500,
-      step: 50,
-    }),
-  ); /* 시간지연 랜덤하게 해보자 */
+  const randomData = pickRandom(mockData, 20);
+  await waitFor(getRandomStepNumber(300, 1500, 50));
 
   return randomData;
 };

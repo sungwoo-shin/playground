@@ -1,4 +1,6 @@
-import { pickRandom, randomize, waitFor } from "#/utils/util";
+import { pickRandom } from "#/utils/pickRandom";
+import { getRandomStepNumber } from "#/utils/randomize";
+import { waitFor } from "#/utils/util";
 import { data } from "../data";
 
 export type Datum = {
@@ -14,14 +16,8 @@ export type State<T> = {
 };
 
 const generatePageData = async () => {
-  const randomData = pickRandom({ data, length: 20 });
-  await waitFor(
-    randomize({
-      min: 300,
-      max: 1500,
-      step: 50,
-    }),
-  );
+  const randomData = pickRandom(data, 20);
+  await waitFor(getRandomStepNumber(300, 1500, 50));
 
   return randomData;
 };
