@@ -1,4 +1,4 @@
-const data = [
+export const data = [
   {
     index: 0,
     id: "658ec0f279cfa696756c35fe",
@@ -389,5 +389,3 @@ const data = [
       "Sunt quis minim eu deserunt cillum consectetur minim magna. Ut officia consequat veniam quis mollit cillum ea sint. Eu ex cupidatat est reprehenderit enim anim pariatur.\r\nVeniam cillum voluptate non fugiat labore. Cillum mollit sint sit id tempor sunt nisi excepteur ullamco fugiat sit sunt. Mollit sit ullamco adipisicing ipsum sit eu incididunt dolor sint adipisicing magna dolor ad aliquip. Occaecat elit id consectetur deserunt fugiat cupidatat officia.\r\n",
   },
 ];
-
-export default data;

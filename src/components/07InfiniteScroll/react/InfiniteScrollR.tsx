@@ -1,4 +1,4 @@
-import cx from "../cx";
+import { cx } from "../cx";
 import { Datum } from "./useInfiniteFetcher";
 import useInfiniteScroll from "./useInfiniteScroll";
 
@@ -15,7 +15,7 @@ function ListItem({ number, title, description }: Datum & { number: number }) {
   );
 }
 
-function InfiniteScrollR() {
+export function InfiniteScroll1R() {
   const { data, state, moreRef } = useInfiniteScroll();
 
   return (
@@ -35,5 +35,3 @@ function InfiniteScrollR() {
     </>
   );
 }
-
-export default InfiniteScrollR;

@@ -1,6 +1,6 @@
 import { VanillaWrapper } from "#/components/vanillaWrapper";
 import { vanillaIntersectionObserver } from "#/hooks/vanilla/intersectionObserver";
-import cx from "../cx";
+import { cx } from "../cx";
 import infinitePageFetcher, { Datum, FetchState } from "./infiniteFetcher";
 
 const generateListItem = ({
@@ -61,7 +61,7 @@ const initiator = (wrapper: HTMLDivElement) => {
   vanillaIntersectionObserver($more, { threshold: 1 }, handleIntersect);
 };
 
-function InfiniteScrollV() {
+export function InfiniteScroll1V() {
   return (
     <div style={{ minHeight: "100vh" }}>
       <h2>무한스크롤</h2>
@@ -70,5 +70,3 @@ function InfiniteScrollV() {
     </div>
   );
 }
-
-export default InfiniteScrollV;
