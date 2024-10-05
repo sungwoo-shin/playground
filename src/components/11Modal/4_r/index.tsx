@@ -1,17 +1,17 @@
-/* eslint-disable jsx-a11y/label-has-associated-control */
-/* eslint-disable react/button-has-type */
 import { ReactNode, useState } from "react";
 
 import { AlertModal, ConfirmModal, FormModal } from "./modalComponents";
-import ModalRoot from "./modalRoot";
-import useModal from "./useModal";
+import { ModalRoot } from "./modalRoot";
+import { useModal } from "./useModal";
 
 function AlertTrigger({ text }: { text: string }) {
   const { modalRef, openModal, closeModal } = useModal();
 
   return (
     <>
-      <button onClick={openModal}>얼럿 띄우기</button>
+      <button type="button" onClick={openModal}>
+        얼럿 띄우기
+      </button>
       <AlertModal modalRef={modalRef} text={text} hide={closeModal} />
     </>
   );
@@ -23,8 +23,8 @@ function ConfirmTrigger({ children }: { children: ReactNode }) {
 
   return (
     <>
-      <button onClick={openModal}>
-        확인모달열기 {confirmed ? "확인됨" : "확인안됨"}
+      <button type="button" onClick={openModal}>
+        확인 모달 열기 {confirmed ? "확인됨" : "확인안됨"}
       </button>
       <ConfirmModal
         modalRef={modalRef}
@@ -50,17 +50,20 @@ function FormTrigger({ id }: { id: string }) {
 
   return (
     <>
-      <button onClick={openModal}>폼모달 열기</button>
+      <button type="button" onClick={openModal}>
+        폼모달 열기
+      </button>
       <FormModal
         id={id}
         modalRef={modalRef}
         hide={closeModal}
-        onSubmit={(d) => {
-          console.log(Array.from(d));
+        onSubmit={(formData) => {
+          console.log(Array.from(formData));
         }}
       >
         <input name="name" placeholder="상품명" />
         <input name="price" type="number" placeholder="가격" />
+        {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
         <label>
           <input name="soldOut" type="checkbox" /> 품절
         </label>
@@ -69,7 +72,7 @@ function FormTrigger({ id }: { id: string }) {
   );
 }
 
-function Modal3() {
+export function Modal4R() {
   return (
     <>
       <h2>모달</h2>
@@ -151,5 +154,3 @@ function Modal3() {
     </>
   );
 }
-
-export default Modal3;

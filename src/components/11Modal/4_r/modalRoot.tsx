@@ -1,29 +1,30 @@
 import { useEffect, useRef } from "react";
 
-const mutationObserverOption: MutationObserverInit = {
-  childList: true,
-  subtree: false,
-};
+import { assertIsDefined } from "#/utils/assetIsDefined";
 
-function ModalRoot() {
-  const ref = useRef<HTMLDivElement>(null);
+export function ModalRoot() {
+  const modalRootRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    let observer: MutationObserver;
-    if (ref.current) {
-      observer = new MutationObserver(() => {
-        const size = ref.current?.childNodes.length || 0;
-        document.body.classList.toggle("no-scroll", size > 0);
-      });
-      observer.observe(ref.current, mutationObserverOption);
-    }
+    assertIsDefined(modalRootRef.current);
+
+    const handleMutate = () => {
+      assertIsDefined(modalRootRef.current);
+
+      const modalCount = modalRootRef.current.childNodes.length || 0;
+      document.body.classList.toggle("no-scroll", modalCount > 0);
+    };
+
+    const observer = new MutationObserver(handleMutate);
+    observer.observe(modalRootRef.current, {
+      childList: true,
+      subtree: false,
+    });
 
     return () => {
       observer.disconnect();
     };
   }, []);
 
-  return <div id="modalRoot" ref={ref} />;
+  return <div id="modalRoot" ref={modalRootRef} />;
 }
-
-export default ModalRoot;

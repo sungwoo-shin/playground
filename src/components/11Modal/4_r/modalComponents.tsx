@@ -1,7 +1,6 @@
-/* eslint-disable react/button-has-type */
-import { ReactNode, RefObject, SyntheticEvent } from "react";
+import { ReactNode, RefObject } from "react";
 
-import Modal from "./modal";
+import { Modal } from "./modal";
 
 export function AlertModal({
   modalRef,
@@ -18,7 +17,9 @@ export function AlertModal({
         <p>{text}</p>
       </Modal.Content>
       <Modal.Footer>
-        <button onClick={hide}>확인</button>
+        <button type="button" onClick={hide}>
+          확인
+        </button>
       </Modal.Footer>
     </Modal>
   );
@@ -47,8 +48,12 @@ export function ConfirmModal({
       />
       <Modal.Content>{children}</Modal.Content>
       <Modal.Footer>
-        <button onClick={onConfirm}>확인</button>
-        <button onClick={onCancel}>취소</button>
+        <button type="button" onClick={onConfirm}>
+          확인
+        </button>
+        <button type="button" onClick={onCancel}>
+          취소
+        </button>
       </Modal.Footer>
     </Modal>
   );
@@ -71,12 +76,13 @@ export function FormModal({
 }) {
   const formId = `form_${id}`;
 
-  const handleSubmit = (e: SyntheticEvent) => {
-    e.preventDefault();
-    const data = new FormData(e.target as HTMLFormElement);
+  const handleSubmit: React.FormEventHandler = (event) => {
+    event.preventDefault();
+    const data = new FormData(event.target as HTMLFormElement);
     onSubmit?.(data);
     hide();
   };
+
   const handleCancel = () => {
     onCancel?.();
     hide();

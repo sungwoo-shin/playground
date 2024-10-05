@@ -1,7 +1,7 @@
 import { Dispatch, SetStateAction, useEffect, useMemo, useState } from "react";
 
-import Modal from "#/components/11Modal/4_r/modal";
-import useModal from "#/components/11Modal/4_r/useModal";
+import { Modal } from "#/components/11Modal/4_r/modal";
+import { useModal } from "#/components/11Modal/4_r/useModal";
 import { Carousel } from "#/components/14Carousel/2_r";
 // eslint-disable-next-line import/no-cycle
 import Reviews, { Image } from "./reviews";

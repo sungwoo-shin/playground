@@ -1,7 +1,16 @@
-/* eslint-disable react/button-has-type */
-import { ReactNode, RefObject, SyntheticEvent, useCallback } from "react";
+import { ReactNode, RefObject, useCallback } from "react";
 
 import { cx } from "../cx";
+
+type TProps = {
+  modalRef: RefObject<HTMLDialogElement>;
+  hideOnClickOutside?: boolean;
+  children: ReactNode;
+  hide: () => void;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  onClose?: (...arg: any[]) => void;
+  className?: string;
+};
 
 function Modal({
   modalRef,
@@ -10,31 +19,18 @@ function Modal({
   hide,
   onClose,
   className,
-}: {
-  modalRef: RefObject<HTMLDialogElement>;
-  hideOnClickOutside?: boolean;
-  children: ReactNode;
-  hide: () => void;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  onClose?: (...arg: any[]) => void;
-  className?: string;
-}) {
-  const handleClose = () => {
-    hide();
-    onClose?.();
-  };
-
+}: TProps) {
   const handleClick = useCallback(
-    (e: SyntheticEvent) => {
-      if (hideOnClickOutside && modalRef.current === e.target) {
-        handleClose();
+    (event: React.SyntheticEvent) => {
+      if (hideOnClickOutside && modalRef.current === event.target) {
+        hide();
+        onClose?.();
       }
     },
-    [hideOnClickOutside],
+    [hide, hideOnClickOutside, modalRef, onClose],
   );
 
   return (
-    // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-noninteractive-element-interactions
     <dialog
       className={cx("Dialog", className)}
       ref={modalRef}
@@ -58,7 +54,11 @@ function ModalHeader({
     <div className={cx("ModalHeader", "gModalHeader")}>
       <div className={cx("title")}>{title}</div>
       {children}
-      <button className={cx("close", "gModalClose")} onClick={hide} />
+      <button
+        type="button"
+        className={cx("close", "gModalClose")}
+        onClick={hide}
+      />
     </div>
   );
 }
@@ -81,6 +81,4 @@ Modal.Header = ModalHeader;
 Modal.Content = ModalContent;
 Modal.Footer = ModalFooter;
 
-/* Compound Component */
-
-export default Modal;
+export { Modal };

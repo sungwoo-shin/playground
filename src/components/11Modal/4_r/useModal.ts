@@ -1,6 +1,8 @@
 import { useCallback, useRef } from "react";
 
-export const toggleScroll = (force?: boolean) => {
+import { assertIsDefined } from "#/utils/assetIsDefined";
+
+const toggleScroll = (force?: boolean) => {
   document.body!.classList.toggle(
     "no-scroll",
     typeof force === "boolean"
@@ -9,21 +11,21 @@ export const toggleScroll = (force?: boolean) => {
   );
 };
 
-const useModal = () => {
+export const useModal = () => {
   const modalRef = useRef<HTMLDialogElement>(null);
 
   const openModal = useCallback(() => {
-    if (modalRef.current) {
-      modalRef.current.showModal();
-      toggleScroll(true);
-    }
+    assertIsDefined(modalRef.current);
+
+    modalRef.current.showModal();
+    toggleScroll(true);
   }, []);
 
   const closeModal = useCallback(() => {
-    if (modalRef.current) {
-      modalRef.current.close();
-      toggleScroll();
-    }
+    assertIsDefined(modalRef.current);
+
+    modalRef.current.close();
+    toggleScroll();
   }, []);
 
   return {
@@ -32,5 +34,3 @@ const useModal = () => {
     closeModal,
   };
 };
-
-export default useModal;

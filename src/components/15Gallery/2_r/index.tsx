@@ -1,8 +1,8 @@
 /* eslint-disable react/button-has-type */
 import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 
-import Modal from "#/components/11Modal/4_r/modal";
-import useModal from "#/components/11Modal/4_r/useModal";
+import { Modal } from "#/components/11Modal/4_r/modal";
+import { useModal } from "#/components/11Modal/4_r/useModal";
 import LazyImage from "#/components/part1/lazyImage";
 import ScrollBox, { ScrollBoxHandle } from "#/components/part1/scrollBox";
 import Reviews, { Image } from "../1_r/reviews";
