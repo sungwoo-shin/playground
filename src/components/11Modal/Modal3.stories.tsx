@@ -1,11 +1,11 @@
 import type { Meta, StoryObj } from "@storybook/react";
 
-import Modal from "./3_v";
+import { Modal3V } from "./3_v";
 
 const meta = {
-  component: Modal,
+  component: Modal3V,
   tags: ["autodocs"],
-} satisfies Meta<typeof Modal>;
+} satisfies Meta<typeof Modal3V>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;

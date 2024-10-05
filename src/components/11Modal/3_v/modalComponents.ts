@@ -1,5 +1,5 @@
 import { stringToDOM } from "#/utils/util";
-import Modal from "./modal";
+import { Modal } from "./modal";
 
 export const AlertModal = ({ id, text }: { id: string; text: string }) =>
   new Modal({
@@ -36,12 +36,12 @@ export const ConfirmModal = ({
       {
         text: "확인",
         hideOnClick: true,
-        handleClick: onConfirm,
+        onClick: onConfirm,
       },
       {
         text: "취소",
         hideOnClick: true,
-        handleClick: onCancel,
+        onClick: onCancel,
       },
     ],
   });

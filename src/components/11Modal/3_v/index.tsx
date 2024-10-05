@@ -16,14 +16,13 @@ const ConfirmTrigger = ({
   id: string;
   children: Element[] | [string];
 }) => {
+  const $btn = stringToDOM(`<button>컨펌모달 열기 확인안됨</button>`);
+
   const setConfirmed = (flag: boolean) => {
-    // eslint-disable-next-line @typescript-eslint/no-use-before-define
     $btn.textContent = `컨펌모달 열기 ${flag ? "확인됨" : "확인안됨"}`;
   };
   const handleConfirm = () => setConfirmed(true);
   const handleCancel = () => setConfirmed(false);
-
-  const $btn = stringToDOM(`<button>컨펌모달 열기 확인안됨</button>`);
 
   $btn.addEventListener("click", () =>
     ConfirmModal({
@@ -101,11 +100,10 @@ const initiator = (wrapper: HTMLDivElement) => {
     Array.from({ length: 10 }, () => "<p>____place____holder____</p>").join(""),
   );
 
-  // @ts-expect-error template
   wrapper.append(...template.children, stringToDOM('<div id="modalRoot">'));
 };
 
-function ModalV() {
+export function Modal3V() {
   return (
     <>
       <h2>모달</h2>
@@ -114,5 +112,3 @@ function ModalV() {
     </>
   );
 }
-
-export default ModalV;

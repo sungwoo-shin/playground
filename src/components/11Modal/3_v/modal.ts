@@ -1,16 +1,16 @@
 import { stringToDOM } from "#/utils/util";
 import { cx } from "../cx";
 
-type ModalFooterButton = {
+type TModalFooterButton = {
   text: string;
   type?: "submit" | "button";
   formId?: string;
   disabled?: boolean;
   hideOnClick?: boolean;
-  handleClick?: (e: Event) => void;
+  onClick?: (e: Event) => void;
 };
 
-type ModalProps = {
+type TModalProps = {
   id: string;
   title?: string;
   modalClassName?: string;
@@ -18,11 +18,10 @@ type ModalProps = {
   headerChildren?: Element[] | [string];
   contentChildren?: Element[] | [string];
   footerChildren?: Element[] | [string];
-  footerButtonProps?: ModalFooterButton[];
+  footerButtonProps?: TModalFooterButton[];
 };
 
-class Modal {
-  // @ts-expect-error temp
+export class Modal {
   #elem: Element;
 
   constructor({
@@ -34,7 +33,7 @@ class Modal {
     headerChildren = [],
     contentChildren = [],
     footerChildren = [],
-  }: ModalProps) {
+  }: TModalProps) {
     const $header = stringToDOM(`
       <div class="${cx("ModalHeader")}">
         <div class="${cx("title")}">${title}</div>
@@ -55,17 +54,17 @@ class Modal {
       <div class="${cx("ModalFooter")}"></div>
     `);
     const footerButtons = footerButtonProps.map(
-      ({ text, type = "button", formId, hideOnClick, handleClick }) => {
+      ({ text, type = "button", formId, hideOnClick, onClick }) => {
         const $btn = stringToDOM(
           `<button type="${type}" form="${formId}">${text}</button>`,
         );
-        const handler = (e: Event) => {
-          handleClick?.(e);
+        const handleClick = (event: Event) => {
+          onClick?.(event);
           if (hideOnClick) {
             this.hide();
           }
         };
-        $btn.addEventListener("click", handler);
+        $btn.addEventListener("click", handleClick);
 
         return $btn;
       },
@@ -91,5 +90,3 @@ class Modal {
     this.#elem.remove();
   }
 }
-
-export default Modal;
