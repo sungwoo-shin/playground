@@ -7,7 +7,7 @@ type TProps = {
   children: React.ReactNode;
 };
 
-export function Modal({ id, hideOnClickOutside = false, children }: TProps) {
+function Modal({ id, hideOnClickOutside = false, children }: TProps) {
   const { closeModal } = useModalActions();
 
   return (
@@ -51,3 +51,5 @@ function ModalFooter({ children }: { children: React.ReactNode }) {
 Modal.Header = ModalHeader;
 Modal.Content = ModalContent;
 Modal.Footer = ModalFooter;
+
+export { Modal };

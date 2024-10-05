@@ -1,7 +1,4 @@
-/* eslint-disable react/button-has-type */
-import { ReactNode, SyntheticEvent } from "react";
-
-import Modal from "./modal";
+import { Modal } from "./modal";
 
 export function AlertModal({
   opened,
@@ -18,7 +15,9 @@ export function AlertModal({
         <p>{text}</p>
       </Modal.Content>
       <Modal.Footer>
-        <button onClick={hide}>확인</button>
+        <button type="button" onClick={hide}>
+          확인
+        </button>
       </Modal.Footer>
     </Modal>
   );
@@ -33,7 +32,7 @@ export function ConfirmModal({
   hide,
 }: {
   opened: boolean;
-  children: ReactNode;
+  children: React.ReactNode;
   confirmed: boolean | null;
   onConfirm: () => void;
   onCancel: () => void;
@@ -47,8 +46,12 @@ export function ConfirmModal({
       />
       <Modal.Content>{children}</Modal.Content>
       <Modal.Footer>
-        <button onClick={onConfirm}>확인</button>
-        <button onClick={onCancel}>취소</button>
+        <button type="button" onClick={onConfirm}>
+          확인
+        </button>
+        <button type="button" onClick={onCancel}>
+          취소
+        </button>
       </Modal.Footer>
     </Modal>
   );
@@ -63,7 +66,7 @@ export function FormModal({
   hide,
 }: {
   id: string;
-  children: ReactNode;
+  children: React.ReactNode;
   opened: boolean;
   onSubmit?: (formData: FormData) => void;
   onCancel?: () => void;
@@ -71,12 +74,13 @@ export function FormModal({
 }) {
   const formId = `form_${id}`;
 
-  const handleSubmit = (e: SyntheticEvent) => {
-    e.preventDefault();
-    const data = new FormData(e.target as HTMLFormElement);
-    onSubmit?.(data);
+  const handleSubmit: React.FormEventHandler = (event) => {
+    event.preventDefault();
+    const formData = new FormData(event.target as HTMLFormElement);
+    onSubmit?.(formData);
     hide();
   };
+
   const handleCancel = () => {
     onCancel?.();
     hide();

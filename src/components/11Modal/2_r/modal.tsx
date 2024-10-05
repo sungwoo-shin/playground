@@ -1,32 +1,25 @@
-/* eslint-disable react/button-has-type */
-/* eslint-disable jsx-a11y/no-static-element-interactions */
-/* eslint-disable jsx-a11y/click-events-have-key-events */
-import { ReactNode, SyntheticEvent } from "react";
 import { createPortal } from "react-dom";
 
 import { cx } from "../cx";
 
-function Modal({
-  hideOnClickOutside = false,
-  children,
-  opened,
-  hide,
-}: {
+type TProps = {
   hideOnClickOutside?: boolean;
-  children: ReactNode;
+  children: React.ReactNode;
   opened: boolean;
   hide: () => void;
-}) {
-  const stopPropagation = (e: SyntheticEvent) => e.stopPropagation();
+};
 
+function Modal({ hideOnClickOutside = false, children, opened, hide }: TProps) {
   return opened
     ? createPortal(
-        // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
         <div
           className={cx("Modal")}
           onClick={hideOnClickOutside ? hide : undefined}
         >
-          <div className={cx("inner")} onClick={stopPropagation}>
+          <div
+            className={cx("inner")}
+            onClick={(event) => event.stopPropagation()}
+          >
             {children}
           </div>
         </div>,
@@ -41,23 +34,23 @@ function ModalHeader({
   hide,
 }: {
   title?: string;
-  children?: ReactNode;
+  children?: React.ReactNode;
   hide?: () => void;
 }) {
   return (
     <div className={cx("ModalHeader")}>
       <div className={cx("title")}>{title}</div>
       {children}
-      <button className={cx("close")} onClick={hide} />
+      <button type="button" className={cx("close")} onClick={hide} />
     </div>
   );
 }
 
-function ModalContent({ children }: { children: ReactNode }) {
+function ModalContent({ children }: { children: React.ReactNode }) {
   return <div className={cx("ModalContent")}>{children}</div>;
 }
 
-function ModalFooter({ children }: { children: ReactNode }) {
+function ModalFooter({ children }: { children: React.ReactNode }) {
   return <div className={cx("ModalFooter")}>{children}</div>;
 }
 
@@ -65,6 +58,4 @@ Modal.Header = ModalHeader;
 Modal.Content = ModalContent;
 Modal.Footer = ModalFooter;
 
-/* Compound Component */
-
-export default Modal;
+export { Modal };

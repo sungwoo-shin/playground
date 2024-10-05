@@ -62,7 +62,6 @@ function FormTrigger({ id }: { id: string }) {
       <FormModal
         id={id}
         onSubmit={(formData) => {
-          console.log("formData: ", formData);
           console.log(Array.from(formData));
         }}
       >

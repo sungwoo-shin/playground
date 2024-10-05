@@ -1,12 +1,14 @@
 import { useCallback, useState } from "react";
 
-const useModal = () => {
-  const [opened, toggleModal] = useState(false);
+export const useModal = () => {
+  const [opened, setOpened] = useState(false);
+
   const openModal = useCallback(() => {
-    toggleModal(true);
+    setOpened(true);
   }, []);
+
   const closeModal = useCallback(() => {
-    toggleModal(false);
+    setOpened(false);
   }, []);
 
   return {
@@ -15,5 +17,3 @@ const useModal = () => {
     closeModal,
   };
 };
-
-export default useModal;
