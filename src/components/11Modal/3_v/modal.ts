@@ -1,5 +1,5 @@
 import { stringToDOM } from "#/utils/util";
-import cx from "../cx";
+import { cx } from "../cx";
 
 type ModalFooterButton = {
   text: string;

@@ -1,23 +1,28 @@
-/* eslint-disable jsx-a11y/label-has-associated-control */
 import { ReactNode, useState } from "react";
 
-import { AlertModal, ConfirmModal, FormModal } from "./modalComponents";
-import { ModalContextProvider, useSetModals } from "./modalContext";
+import { AlertModal } from "./AlertModal";
+import { ConfirmModal } from "./ConfirmModal";
+import { FormModal } from "./FormModal";
+import { ModalContextProvider, useModalActions } from "./ModalContext";
 
 function AlertTrigger({ id, text }: { id: string; text: string }) {
-  const { openModal } = useSetModals();
+  const { openModal } = useModalActions();
 
   const openAlertModal = () => {
     openModal(id, <AlertModal id={id} text={text} />);
   };
 
-  // eslint-disable-next-line react/button-has-type
-  return <button onClick={openAlertModal}>얼럿 띄우기</button>;
+  return (
+    <button type="button" onClick={openAlertModal}>
+      얼럿 모달 열기
+    </button>
+  );
 }
 
 function ConfirmTrigger({ id, children }: { id: string; children: ReactNode }) {
-  const { openModal, closeModal } = useSetModals();
+  const { openModal, closeModal } = useModalActions();
   const [confirmed, setConfirmed] = useState<boolean | null>(null);
+
   const closeThis = () => closeModal(id);
 
   const openConfirmModal = () => {
@@ -42,26 +47,28 @@ function ConfirmTrigger({ id, children }: { id: string; children: ReactNode }) {
   };
 
   return (
-    // eslint-disable-next-line react/button-has-type
-    <button onClick={openConfirmModal}>
-      확인모달열기 {confirmed ? "확인됨" : "확인안됨"}
+    <button type="button" onClick={openConfirmModal}>
+      확인 모달 열기 {confirmed ? "확인됨" : "확인안됨"}
     </button>
   );
 }
 
 function FormTrigger({ id }: { id: string }) {
-  const { openModal } = useSetModals();
+  const { openModal } = useModalActions();
+
   const openFormModal = () => {
     openModal(
       id,
       <FormModal
         id={id}
-        onSubmit={(d) => {
-          console.log(Array.from(d));
+        onSubmit={(formData) => {
+          console.log("formData: ", formData);
+          console.log(Array.from(formData));
         }}
       >
         <input name="name" placeholder="상품명" />
         <input name="price" type="number" placeholder="가격" />
+        {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
         <label>
           <input name="soldOut" type="checkbox" /> 품절
         </label>
@@ -69,11 +76,14 @@ function FormTrigger({ id }: { id: string }) {
     );
   };
 
-  // eslint-disable-next-line react/button-has-type
-  return <button onClick={openFormModal}>폼모달 열기</button>;
+  return (
+    <button type="button" onClick={openFormModal}>
+      폼 모달 열기
+    </button>
+  );
 }
 
-function Modal1() {
+export function Modal1R() {
   return (
     <ModalContextProvider>
       <h2>모달</h2>
@@ -153,5 +163,3 @@ function Modal1() {
     </ModalContextProvider>
   );
 }
-
-export default Modal1;

@@ -1,7 +1,7 @@
 /* eslint-disable react/button-has-type */
 import { ReactNode, RefObject, SyntheticEvent, useCallback } from "react";
 
-import cx from "../cx";
+import { cx } from "../cx";
 
 function Modal({
   modalRef,

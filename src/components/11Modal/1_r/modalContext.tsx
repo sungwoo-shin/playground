@@ -1,70 +1,96 @@
-/* eslint-disable @typescript-eslint/no-shadow */
 import {
   createContext,
-  Dispatch,
   Fragment,
   ReactNode,
-  SetStateAction,
   useCallback,
   useContext,
-  useEffect,
+  useMemo,
   useState,
 } from "react";
 
-type ModalState = Map<string, ReactNode>;
-type ModalDispatchState = Dispatch<SetStateAction<ModalState>>;
+import { getContextError } from "#/utils/getContextError";
 
-const ModalContext = createContext<ModalState>(new Map());
-const ModalDispatchContext = createContext<ModalDispatchState>(() => {});
+type TModalValues = Map<string, React.ReactNode>;
+type TModalActions = {
+  openModal: (id: string, Modal: React.ReactNode) => void;
+  closeModal: (id: string) => void;
+};
+
+const ModalValuesContext = createContext<TModalValues | null>(null);
+const ModalActionsContext = createContext<TModalActions | null>(null);
 
 export function ModalContextProvider({ children }: { children: ReactNode }) {
-  const [modals, setModals] = useState<ModalState>(new Map());
-  const modalValues = Array.from(modals.values());
+  const [modalValues, setModalValues] = useState<TModalValues>(new Map());
+  const modals = Array.from(modalValues.values());
 
-  useEffect(() => {
-    document.body.classList.toggle("no-scroll", modals.size > 0);
-  }, [modals]);
+  const toggleScroll = useCallback(
+    () => document.body.classList.toggle("no-scroll", modalValues.size > 0),
+    [modalValues.size],
+  );
+
+  const openModal = useCallback(
+    (id: string, Modal: React.ReactNode) => {
+      setModalValues((prev) => {
+        const newMap = new Map(prev);
+        newMap.set(id, Modal);
+
+        return newMap;
+      });
+      toggleScroll();
+    },
+    [toggleScroll],
+  );
+
+  const closeModal = useCallback(
+    (id: string) => {
+      setModalValues((prev) => {
+        const newMap = new Map(prev);
+        newMap.delete(id);
+
+        return newMap;
+      });
+      toggleScroll();
+    },
+    [toggleScroll],
+  );
+
+  const actions = useMemo(
+    () => ({
+      openModal,
+      closeModal,
+    }),
+    [closeModal, openModal],
+  );
 
   return (
-    <ModalContext.Provider value={modals}>
-      <ModalDispatchContext.Provider value={setModals}>
+    <ModalValuesContext.Provider value={modalValues}>
+      <ModalActionsContext.Provider value={actions}>
         {children}
         <div id="modalRoot">
-          {modalValues.map((children, i) => (
+          {modals.map((Modal, i) => (
             // eslint-disable-next-line react/no-array-index-key
-            <Fragment key={i}>{children}</Fragment>
+            <Fragment key={i}>{Modal}</Fragment>
           ))}
         </div>
-      </ModalDispatchContext.Provider>
-    </ModalContext.Provider>
+      </ModalActionsContext.Provider>
+    </ModalValuesContext.Provider>
   );
 }
 
-export const useModals = () => useContext(ModalContext);
-export const useSetModals = () => {
-  const setModals = useContext(ModalDispatchContext);
+export const useModalValues = () => {
+  const values = useContext(ModalValuesContext);
+  if (values === null) {
+    throw new Error(getContextError("ModalValues"));
+  }
 
-  const openModal = useCallback((id: string, children: ReactNode) => {
-    setModals((prev) => {
-      const newMap = new Map(prev);
-      newMap.set(id, children);
+  return values;
+};
 
-      return newMap;
-    });
-  }, []);
+export const useModalActions = () => {
+  const actions = useContext(ModalActionsContext);
+  if (actions === null) {
+    throw new Error(getContextError("ModalActions"));
+  }
 
-  const closeModal = useCallback((id: string) => {
-    setModals((prev) => {
-      const newMap = new Map(prev);
-      newMap.delete(id);
-
-      return newMap;
-    });
-  }, []);
-  // const closeAll
-
-  return {
-    openModal,
-    closeModal,
-  };
+  return actions;
 };

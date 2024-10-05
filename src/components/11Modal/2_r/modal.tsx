@@ -4,7 +4,7 @@
 import { ReactNode, SyntheticEvent } from "react";
 import { createPortal } from "react-dom";
 
-import cx from "../cx";
+import { cx } from "../cx";
 
 function Modal({
   hideOnClickOutside = false,
