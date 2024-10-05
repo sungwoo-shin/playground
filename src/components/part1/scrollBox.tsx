@@ -4,14 +4,13 @@ import {
   forwardRef,
   Ref,
   useCallback,
-  useEffect,
   useImperativeHandle,
   useRef,
   useState,
 } from "react";
 import classNames from "classnames/bind";
 
-import useIntersectionObserver from "#/hooks/useIntersectionObserverV2";
+import { useIntersectionObserverV2 } from "#/hooks/useIntersectionObserverV2";
 import styles from "./scrollBox.module.scss";
 
 const cx = classNames.bind(styles);
@@ -76,7 +75,26 @@ function ScrollBox<T extends { id: string }>(
   const listRef = useRef<HTMLUListElement>(null);
   const itemsRef = useRef<ItemElemType[]>([]);
   const watcherRef = useRef<ItemElemType[]>([]);
-  const { entries: watcherEntries } = useIntersectionObserver(watcherRef);
+
+  const stableHandleIntersect = useCallback(
+    (intersectingWatcherEntries: IntersectionObserverEntry[]) => {
+      if (!intersectingWatcherEntries.length) {
+        setButtonEnabled(DefaultButtonState);
+      }
+      setButtonEnabled(() => {
+        const newState = { ...DefaultButtonState };
+        intersectingWatcherEntries.forEach((e) => {
+          const direction = (e.target as HTMLLIElement).dataset
+            .direction as Direction;
+          newState[direction] = false;
+        });
+
+        return newState;
+      });
+    },
+    [],
+  );
+  useIntersectionObserverV2(watcherRef, stableHandleIntersect);
 
   const scrollFocus = useCallback(
     (index: number, behavior: "instant" | "smooth" = "instant") => {
@@ -112,22 +130,6 @@ function ScrollBox<T extends { id: string }>(
       behavior: "smooth", // 애니메이션 유무. smooth: O / instant: X / auto: 알아서...
     });
   }, []);
-
-  useEffect(() => {
-    if (!watcherEntries.length) {
-      setButtonEnabled(DefaultButtonState);
-    }
-    setButtonEnabled(() => {
-      const newState = { ...DefaultButtonState };
-      watcherEntries.forEach((e) => {
-        const direction = (e.target as HTMLLIElement).dataset
-          .direction as Direction;
-        newState[direction] = false;
-      });
-
-      return newState;
-    });
-  }, [watcherEntries]);
 
   return (
     <div className={cx("scrollBox", wrapperClassName)}>

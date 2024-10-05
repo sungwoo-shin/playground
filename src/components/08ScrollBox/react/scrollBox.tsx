@@ -1,83 +1,87 @@
-/* eslint-disable react/button-has-type */
 import {
-  ForwardedRef,
   forwardRef,
-  Ref,
   useCallback,
-  useEffect,
   useImperativeHandle,
   useRef,
   useState,
 } from "react";
 
-import useIntersectionObserver from "#/hooks/useIntersectionObserverV2";
+import { useIntersectionObserverV2 } from "#/hooks/useIntersectionObserverV2";
+import { assertIsDefined } from "#/utils/assetIsDefined";
 import cx from "../cx";
 
-type Direction = "prev" | "next";
-type ItemElemType = HTMLLIElement | null;
-const DefaultButtonState = { prev: true, next: true };
+type TDirection = "prev" | "next";
+type TItemElem = HTMLLIElement | null;
 
-const getVisibileEdgeItems = (
-  $list: HTMLUListElement,
-  $items: ItemElemType[],
-) => {
-  const { left: lLeft, right: lRight } = $list.getBoundingClientRect();
-  const isVisible = ($item: ItemElemType) => {
-    const { left, right } = $item?.getBoundingClientRect() || {
-      left: 0,
-      right: 0,
-    };
+const defaultShowNavButton = { prev: true, next: true };
 
-    // 전부 화면상에 존재하는 조건: left >= lLeft && right <= lRight
-    // 애매하게 걸친 경우까지 인정하는 조건: left <=lRight && right >= lLeft
-    return left <= lRight && right >= lLeft; // 애매하게 보이는 경우까지 모두 포함시킴.
+// 화면상에 들어온 항목 계산
+const getVisibleEdgeItems = ($list: HTMLUListElement, $items: TItemElem[]) => {
+  const { left: listLeft, right: listRight } = $list.getBoundingClientRect();
+
+  const isItemVisible = ($item: TItemElem) => {
+    const { left: itemLeft, right: itemRight } =
+      $item?.getBoundingClientRect() || {
+        left: 0,
+        right: 0,
+      };
+
+    // 완전히 화면상에 들어온 경우: itemLeft >= listLeft && itemRight <= listRight
+    // 화면상에 걸쳐서 들어온 경우 포함: itemLeft <= listRight && itemRight >= listLeft
+    return itemLeft <= listRight && itemRight >= listLeft;
   };
-  const leftIndex = Math.max($items.findIndex(isVisible), 0);
-  const rightIndex = Math.min(
-    $items.findLastIndex(isVisible),
+
+  const leftEdgeItemIdx = Math.max($items.findIndex(isItemVisible), 0);
+  const rightEdgeItemIdx = Math.min(
+    $items.findLastIndex(isItemVisible),
     $items.length - 1,
   );
 
-  return { left: $items[leftIndex], right: $items[rightIndex] };
+  return {
+    leftEdgeItem: $items[leftEdgeItemIdx],
+    rightEdgeItem: $items[rightEdgeItemIdx],
+  };
 };
 
-export type ScrollBoxHandle =
+type TScrollBoxHandle =
   | {
-      scrollFocus: (index: number, behavior?: "instant" | "smooth") => void;
+      scrollIntoIdx: (index: number, behavior?: "instant" | "smooth") => void;
     }
   | null
   | undefined;
 
-type ScrollBoxProps<T> = {
+type TProps<T> = {
   list: T[];
-  Item: (props: T & { handleClick?: () => void }) => JSX.Element;
+  Item: (props: T & { onClick?: () => void }) => JSX.Element;
   currentIndex?: number;
   wrapperClassName?: string;
-  handleItemClick?: (item: T, index: number) => () => void;
+  onItemClick?: (item: T, index: number) => () => void;
 };
 
+/**
+ * 목록 데이터와 아이템 컴포넌트를 별도의 props로 받는 패턴
+ */
 function ScrollBox<T extends { id: string }>(
   {
     list,
     Item,
     currentIndex = 0,
     wrapperClassName = "",
-    handleItemClick,
-  }: ScrollBoxProps<T>,
-  ref: ForwardedRef<unknown>,
+    onItemClick,
+  }: TProps<T>,
+  ref: React.ForwardedRef<unknown>,
 ) {
-  const [buttonEnabled, setButtonEnabled] = useState<{
+  const [showShowNavButton, setShowNavButton] = useState<{
     prev: boolean;
     next: boolean;
-  }>(DefaultButtonState);
+  }>(defaultShowNavButton);
   const listRef = useRef<HTMLUListElement>(null);
-  const itemsRef = useRef<ItemElemType[]>([]);
-  const watcherRef = useRef<ItemElemType[]>([]);
-  const { entries: watcherEntries } = useIntersectionObserver(watcherRef);
+  const itemsRef = useRef<TItemElem[]>([]);
+  const watchersRef = useRef<TItemElem[]>([]);
 
-  const scrollFocus = useCallback(
-    (index: number, behavior: "instant" | "smooth" = "instant") => {
-      itemsRef.current[index]?.scrollIntoView({
+  const scrollIntoIdx = useCallback(
+    (idx: number, behavior: "instant" | "smooth" = "instant") => {
+      itemsRef.current[idx]?.scrollIntoView({
         block: "nearest",
         inline: "center",
         behavior,
@@ -85,90 +89,99 @@ function ScrollBox<T extends { id: string }>(
     },
     [],
   );
-
   useImperativeHandle(
     ref,
     () => ({
-      scrollFocus,
+      scrollIntoIdx,
     }),
-    [],
+    [scrollIntoIdx],
   );
 
-  const move = useCallback((direction: Direction) => {
-    if (!listRef.current || !itemsRef.current.length) {
-      return;
-    }
-    const { left, right } = getVisibileEdgeItems(
+  const stableHandleIntersect = useCallback(
+    (intersectingWatcherEntries: IntersectionObserverEntry[]) => {
+      if (!intersectingWatcherEntries.length) {
+        setShowNavButton(defaultShowNavButton);
+      }
+
+      setShowNavButton(() => {
+        // 고치자
+        const newState = { ...defaultShowNavButton };
+
+        intersectingWatcherEntries.forEach((entry) => {
+          const direction = (entry.target as HTMLLIElement).dataset
+            .direction as TDirection;
+          newState[direction] = false;
+        });
+
+        return newState;
+      });
+    },
+    [],
+  );
+  useIntersectionObserverV2(watchersRef, stableHandleIntersect);
+
+  const handleNavBtnClick = (direction: TDirection) => {
+    assertIsDefined(listRef.current);
+    assertIsDefined(itemsRef.current);
+
+    const { leftEdgeItem, rightEdgeItem } = getVisibleEdgeItems(
       listRef.current,
       itemsRef.current,
     );
-    const elem = direction === "prev" ? left : right; // 보여지는 맨 끝 아이템!
-    elem?.scrollIntoView({
-      inline: direction === "prev" ? "end" : "start", // 가로위치 'start' | 'end' | 'nearest' | 'center'
-      block: "nearest", // 세로위치 'start' | 'end' | 'nearest' | 'center'
-      behavior: "smooth", // 애니메이션 유무. smooth: O / instant: X / auto: 알아서...
+    const targetElem = direction === "prev" ? leftEdgeItem : rightEdgeItem;
+    targetElem?.scrollIntoView({
+      inline: direction === "prev" ? "end" : "start",
+      block: "nearest",
+      behavior: "smooth",
     });
-  }, []);
-
-  useEffect(() => {
-    if (!watcherEntries.length) {
-      setButtonEnabled(DefaultButtonState);
-    }
-    setButtonEnabled(() => {
-      const newState = { ...DefaultButtonState };
-      watcherEntries.forEach((e) => {
-        const direction = (e.target as HTMLLIElement).dataset
-          .direction as Direction;
-        newState[direction] = false;
-      });
-
-      return newState;
-    });
-  }, [watcherEntries]);
+  };
 
   return (
     <div className={cx("scrollBox", wrapperClassName)}>
       <ul className={cx("list")} ref={listRef}>
         <li
           className={cx("observer")}
-          ref={(r) => {
-            watcherRef.current[0] = r;
+          ref={(prevObserverRef) => {
+            watchersRef.current[0] = prevObserverRef;
           }}
           data-direction="prev"
         />
-        {list.map((item, i) => (
+        {list.map((itemProps, i) => (
           <li
-            key={item.id}
+            key={itemProps.id}
             className={cx("item", { current: currentIndex === i })}
-            ref={(r) => {
-              itemsRef.current[i] = r;
+            ref={(itemRef) => {
+              itemsRef.current[i] = itemRef;
             }}
           >
-            <Item {...item} handleClick={handleItemClick?.(item, i)} />
+            <Item {...itemProps} onClick={onItemClick?.(itemProps, i)} />
           </li>
         ))}
         <li
           className={cx("observer")}
-          ref={(r) => {
-            watcherRef.current[1] = r;
+          ref={(nextObserverRef) => {
+            watchersRef.current[1] = nextObserverRef;
           }}
           data-direction="next"
         />
       </ul>
+
       <button
-        className={cx("nav-button", "prev", { on: buttonEnabled.prev })}
-        onClick={() => move("prev")}
+        type="button"
+        className={cx("nav-button", "prev", { on: showShowNavButton.prev })}
+        onClick={() => handleNavBtnClick("prev")}
       />
       <button
-        className={cx("nav-button", "next", { on: buttonEnabled.next })}
-        onClick={() => move("next")}
+        type="button"
+        className={cx("nav-button", "next", { on: showShowNavButton.next })}
+        onClick={() => handleNavBtnClick("next")}
       />
     </div>
   );
 }
 
-const ForwardedScrollBox = forwardRef(ScrollBox) as <T extends { id: string }>(
-  props: ScrollBoxProps<T> & { ref: Ref<ScrollBoxHandle> },
+export const ForwardedScrollBox = forwardRef(ScrollBox) as <
+  T extends { id: string },
+>(
+  props: TProps<T> & { ref: React.Ref<TScrollBoxHandle> },
 ) => JSX.Element;
-
-export default ForwardedScrollBox;

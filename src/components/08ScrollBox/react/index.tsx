@@ -2,7 +2,7 @@ import { useRef } from "react";
 
 import { LazyImage } from "#/components/06LazyLoading/1_r/LazyLoading1R";
 import data from "../data";
-import ScrollBox from "./scrollBox";
+import { ForwardedScrollBox } from "./scrollBox";
 
 export function Item({
   description,
@@ -19,15 +19,13 @@ export function Item({
   );
 }
 
-// eslint-disable-next-line @typescript-eslint/naming-convention
-function ScrollBox_React() {
+export function ScrollBoxR() {
   const ref = useRef();
 
   return (
     <>
       <h3>#1. React</h3>
-      <ScrollBox list={data} Item={Item} ref={ref} />
+      <ForwardedScrollBox list={data} Item={Item} ref={ref} />
     </>
   );
 }
-export default ScrollBox_React;

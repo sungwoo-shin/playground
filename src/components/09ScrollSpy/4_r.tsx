@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 
-import useIntersectionObserver from "#/hooks/useIntersectionObserverV2";
+import { useIntersectionObserverV2 } from "#/hooks/useIntersectionObserverV2";
 import ScrollBox, { ScrollBoxHandle } from "../part1/scrollBox";
 import cx from "./cx";
 import data from "./data";
@@ -56,12 +56,23 @@ function ScrollSpy4() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const scrollboxRef = useRef<ScrollBoxHandle>();
   const itemsRef = useRef<Elem[]>([]);
-  const { entries } = useIntersectionObserver(itemsRef, IOOptions);
 
   const setCurrentItem = useCallback((index: number) => {
     setCurrentIndex(index);
     scrollboxRef.current?.scrollFocus(index);
   }, []);
+
+  const stableHandleIntersect = useCallback(
+    (intersectingEntries: IntersectionObserverEntry[]) => {
+      const $target = intersectingEntries[0]?.target as HTMLElement;
+      const index = $target?.dataset.index;
+      if (typeof index === "string") {
+        setCurrentItem(+index);
+      }
+    },
+    [setCurrentItem],
+  );
+  useIntersectionObserverV2(itemsRef, stableHandleIntersect, IOOptions);
 
   const handleNavClick = useCallback(
     (item: unknown, index: number) => () => {
@@ -79,14 +90,6 @@ function ScrollSpy4() {
   useEffect(() => {
     itemsRef.current = data.map((d) => document.getElementById(d.id));
   }, []);
-
-  useEffect(() => {
-    const $target = entries[0]?.target as HTMLElement;
-    const index = $target?.dataset.index;
-    if (typeof index === "string") {
-      setCurrentItem(+index);
-    }
-  }, [entries]);
 
   return (
     <div className={cx("ScrollSpy")}>

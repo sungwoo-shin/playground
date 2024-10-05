@@ -1,7 +1,7 @@
 /* eslint-disable react/button-has-type */
 import { useCallback, useEffect, useRef, useState } from "react";
 
-import useIntersectionObserver from "#/hooks/useIntersectionObserverV2";
+import { useIntersectionObserverV2 } from "#/hooks/useIntersectionObserverV2";
 import cx from "./cx";
 import data from "./data";
 
@@ -45,7 +45,6 @@ function ScrollSpy2() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const navsRef = useRef<Elem[]>([]);
   const itemsRef = useRef<Elem[]>([]);
-  const { entries } = useIntersectionObserver(itemsRef, IOOptions);
 
   const setCurrentItem = useCallback((index: number) => {
     setCurrentIndex(index);
@@ -55,6 +54,24 @@ function ScrollSpy2() {
       behavior: "instant",
     });
   }, []);
+
+  const stableHandleIntersect = useCallback(
+    (intersectingEntries: IntersectionObserverEntry[]) => {
+      const entryTops = intersectingEntries.map(
+        (e) => e.boundingClientRect.top,
+      );
+      const topMin = Math.min(...entryTops);
+      const $target = intersectingEntries.find(
+        (e) => e.boundingClientRect.top === topMin,
+      )?.target as HTMLElement;
+      const index = $target?.dataset.index;
+      if (typeof index === "string") {
+        setCurrentItem(+index);
+      }
+    },
+    [setCurrentItem],
+  );
+  useIntersectionObserverV2(itemsRef, stableHandleIntersect, IOOptions);
 
   const handleNavClick = useCallback((index: number) => {
     const { scrollTop } = document.scrollingElement!;
@@ -69,17 +86,6 @@ function ScrollSpy2() {
   useEffect(() => {
     itemsRef.current = data.map((d) => document.getElementById(d.id));
   }, []);
-
-  useEffect(() => {
-    const entryTops = entries.map((e) => e.boundingClientRect.top);
-    const topMin = Math.min(...entryTops);
-    const $target = entries.find((e) => e.boundingClientRect.top === topMin)
-      ?.target as HTMLElement;
-    const index = $target?.dataset.index;
-    if (typeof index === "string") {
-      setCurrentItem(+index);
-    }
-  }, [entries]);
 
   return (
     <div className={cx("ScrollSpy")}>
