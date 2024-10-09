@@ -1,7 +1,7 @@
-/* eslint-disable react/button-has-type */
 import { useCallback, useEffect, useRef, useState } from "react";
 
 import { useIntersectionObserverV2 } from "#/hooks/useIntersectionObserverV2";
+import { assertIsDefined } from "#/utils/assetIsDefined";
 import cx from "./cx";
 import data from "./data";
 
@@ -40,80 +40,88 @@ const IOOptions: IntersectionObserverInit = {
   threshold: [0.5, 1],
 };
 
-type Elem = HTMLElement | null;
-function ScrollSpy2() {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const navsRef = useRef<Elem[]>([]);
-  const itemsRef = useRef<Elem[]>([]);
+type TElem = HTMLElement | null;
 
-  const setCurrentItem = useCallback((index: number) => {
-    setCurrentIndex(index);
-    navsRef.current[index]?.scrollIntoView({
-      block: "nearest",
-      inline: "center",
-      behavior: "instant",
-    });
-  }, []);
-
-  const stableHandleIntersect = useCallback(
-    (intersectingEntries: IntersectionObserverEntry[]) => {
-      const entryTops = intersectingEntries.map(
-        (e) => e.boundingClientRect.top,
-      );
-      const topMin = Math.min(...entryTops);
-      const $target = intersectingEntries.find(
-        (e) => e.boundingClientRect.top === topMin,
-      )?.target as HTMLElement;
-      const index = $target?.dataset.index;
-      if (typeof index === "string") {
-        setCurrentItem(+index);
-      }
-    },
-    [setCurrentItem],
-  );
-  useIntersectionObserverV2(itemsRef, stableHandleIntersect, IOOptions);
-
-  const handleNavClick = useCallback((index: number) => {
-    const { scrollTop } = document.scrollingElement!;
-    const itemY = itemsRef.current[index]?.getBoundingClientRect().top || 0;
-    const top = scrollTop + itemY - HeaderHeight;
-    window.scrollTo({
-      top,
-      behavior: "smooth",
-    });
-  }, []);
+export function ScrollSpy2() {
+  const [curIdx, setCurIdx] = useState(0);
+  const navsRef = useRef<TElem[]>([]);
+  const itemsRef = useRef<TElem[]>([]);
 
   useEffect(() => {
     itemsRef.current = data.map((d) => document.getElementById(d.id));
   }, []);
 
+  const stableHandleIntersect = useCallback(
+    (intersectingEntries: IntersectionObserverEntry[]) => {
+      const intersectingEntryTops = intersectingEntries.map(
+        (intersectingEntry) => intersectingEntry.boundingClientRect.top,
+      );
+      const minTop = Math.min(...intersectingEntryTops);
+      const $target = intersectingEntries.find(
+        (intersectingEntry) =>
+          intersectingEntry.boundingClientRect.top === minTop,
+      )?.target as HTMLElement;
+      const index = $target?.dataset.index;
+
+      if (typeof index === "string") {
+        const parsedIdx = parseInt(index, 10);
+        setCurIdx(parsedIdx);
+        navsRef.current.at(parsedIdx)?.scrollIntoView({
+          block: "nearest",
+          inline: "center",
+          behavior: "instant",
+        });
+      }
+    },
+    [],
+  );
+  useIntersectionObserverV2(itemsRef, stableHandleIntersect, IOOptions);
+
+  const handleNavClick = (idx: number) => {
+    assertIsDefined(document.scrollingElement);
+    const { scrollTop } = document.scrollingElement;
+
+    const itemY = itemsRef.current[idx]?.getBoundingClientRect().top || 0;
+    const top = scrollTop + itemY - HeaderHeight;
+    window.scrollTo({
+      top,
+      behavior: "smooth",
+    });
+  };
+
   return (
     <div className={cx("ScrollSpy")}>
       <header className={cx("floatingHeader")}>
         <h3 className={cx("title")}>
-          스크롤 스파이 #2. React<sub>IntersectionObserver</sub>
+          스크롤 스파이 #2. React - IntersectionObserver
         </h3>
         <ul className={cx("nav")}>
           {data.map(({ index, id }) => (
             <li
-              className={cx("navItem", { current: currentIndex === index })}
               key={id}
+              className={cx("navItem", { current: curIdx === index })}
               ref={(r) => {
                 navsRef.current[index] = r;
               }}
             >
-              <button onClick={() => handleNavClick(index)}>{index + 1}</button>
+              <button type="button" onClick={() => handleNavClick(index)}>
+                {index + 1}
+              </button>
             </li>
           ))}
         </ul>
       </header>
       <ul>
-        {data.map((item) => (
-          <ListItem {...item} index={item.index} key={item.id} />
+        {data.map(({ description, id, index, title }) => (
+          <ListItem
+            key={id}
+            description={description}
+            id={id}
+            title={title}
+            index={index}
+          />
         ))}
       </ul>
     </div>
   );
 }
-
-export default ScrollSpy2;

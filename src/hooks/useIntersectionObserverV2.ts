@@ -15,11 +15,9 @@ export const useIntersectionObserverV2 = (
     const elems = elemsRef.current;
     assertIsDefined(elems);
 
-    const io = new IntersectionObserver(
-      (entries) =>
-        stableOnIntersect(entries.filter((entry) => entry.isIntersecting)),
-      options,
-    );
+    const io = new IntersectionObserver((entries) => {
+      stableOnIntersect(entries.filter((entry) => entry.isIntersecting));
+    }, options);
     ioRef.current = io;
 
     elems.forEach((elem) => elem && io.observe(elem));
