@@ -43,7 +43,7 @@ const getVisibleEdgeItems = ($list: HTMLUListElement, $items: TItemElem[]) => {
   };
 };
 
-type TScrollBoxHandle =
+export type TScrollBoxHandle =
   | {
       scrollIntoIdx: (index: number, behavior?: "instant" | "smooth") => void;
     }

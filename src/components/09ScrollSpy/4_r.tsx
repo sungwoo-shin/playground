@@ -1,11 +1,14 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 
 import { useIntersectionObserverV2 } from "#/hooks/useIntersectionObserverV2";
-import ScrollBox, { ScrollBoxHandle } from "../part1/scrollBox";
+import {
+  ForwardedScrollBox,
+  TScrollBoxHandle,
+} from "../08ScrollBox/react/scrollBox";
 import cx from "./cx";
 import data from "./data";
 
-const HeaderHeight = 60;
+const HEADER_HEIGHT_PX = 60;
 
 function NavItem({
   index,
@@ -14,8 +17,11 @@ function NavItem({
   index: number;
   handleClick?: () => void;
 }) {
-  // eslint-disable-next-line react/button-has-type
-  return <button onClick={handleClick}>{index + 1}</button>;
+  return (
+    <button type="button" onClick={handleClick}>
+      {index + 1}
+    </button>
+  );
 }
 
 function ListItem({
@@ -47,38 +53,42 @@ function ListItem({
 }
 
 const IOOptions: IntersectionObserverInit = {
-  rootMargin: `-${HeaderHeight}px 0% 0% 0%`,
+  rootMargin: `-${HEADER_HEIGHT_PX}px 0% 0% 0%`,
   threshold: [0.5, 1],
 };
 
-type Elem = HTMLElement | null;
-function ScrollSpy4() {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const scrollboxRef = useRef<ScrollBoxHandle>();
-  const itemsRef = useRef<Elem[]>([]);
+type TElem = HTMLElement | null;
 
-  const setCurrentItem = useCallback((index: number) => {
-    setCurrentIndex(index);
-    scrollboxRef.current?.scrollFocus(index);
+export function ScrollSpy4R() {
+  const [curIdx, setCurIdx] = useState(0);
+  const scrollboxRef = useRef<TScrollBoxHandle>();
+  const itemsRef = useRef<TElem[]>([]);
+
+  useEffect(() => {
+    itemsRef.current = data.map((d) => document.getElementById(d.id));
   }, []);
 
   const stableHandleIntersect = useCallback(
     (intersectingEntries: IntersectionObserverEntry[]) => {
-      const $target = intersectingEntries[0]?.target as HTMLElement;
-      const index = $target?.dataset.index;
-      if (typeof index === "string") {
-        setCurrentItem(+index);
+      const $target = intersectingEntries.at(0)?.target as HTMLElement;
+      const idx = $target?.dataset.index;
+
+      if (typeof idx === "string") {
+        const parsedIdx = parseInt(idx, 10);
+        setCurIdx(parsedIdx);
+        scrollboxRef.current?.scrollIntoIdx(parsedIdx);
       }
     },
-    [setCurrentItem],
+    [],
   );
   useIntersectionObserverV2(itemsRef, stableHandleIntersect, IOOptions);
 
   const handleNavClick = useCallback(
     (item: unknown, index: number) => () => {
       const { scrollTop } = document.scrollingElement!;
-      const itemY = itemsRef.current[index]?.getBoundingClientRect().top || 0;
-      const top = scrollTop + itemY - HeaderHeight;
+      const itemTop =
+        itemsRef.current.at(index)?.getBoundingClientRect().top || 0;
+      const top = scrollTop + itemTop - HEADER_HEIGHT_PX;
       window.scrollTo({
         top,
         behavior: "smooth",
@@ -87,33 +97,33 @@ function ScrollSpy4() {
     [],
   );
 
-  useEffect(() => {
-    itemsRef.current = data.map((d) => document.getElementById(d.id));
-  }, []);
-
   return (
     <div className={cx("ScrollSpy")}>
       <header className={cx("floatingHeader")}>
         <h3 className={cx("title")}>
-          스크롤 스파이 #4. React <sub>IO + ScrollBox</sub>
+          스크롤 스파이 #4. React - IO + ScrollBox
         </h3>
 
-        <ScrollBox
+        <ForwardedScrollBox
           ref={scrollboxRef}
           list={data}
           Item={NavItem}
-          handleItemClick={handleNavClick}
-          currentIndex={currentIndex}
+          onItemClick={handleNavClick}
+          currentIndex={curIdx}
           wrapperClassName={cx("nav", "with-scrollbox")}
         />
       </header>
       <ul>
-        {data.map((item) => (
-          <ListItem {...item} index={item.index} key={item.id} />
+        {data.map(({ description, id, index, title }) => (
+          <ListItem
+            key={id}
+            description={description}
+            id={id}
+            title={title}
+            index={index}
+          />
         ))}
       </ul>
     </div>
   );
 }
-
-export default ScrollSpy4;
