@@ -1,17 +1,24 @@
+import { assertIsDefined } from "#/utils/assetIsDefined";
 import { generateDOM } from "#/utils/generateDOM";
 import cx from "../cx";
 
-const SNACKBAR_DURATION = 3000;
+const SNACKBAR_DURATION_MS = 3000;
 
 const buildCX = (classnames: string) => classnames.split(" ").map((c) => cx(c));
 
-const initSnackbar = (children: HTMLElement) => {
+export const initSnackbar = (children: HTMLElement) => {
   let timeoutId: number | null = null;
 
   const $snackbar = generateDOM("div", cx("SnackbarItem"));
   $snackbar.append(children);
 
-  const toggleClass = ({ add, remove }: { add?: string; remove?: string }) => {
+  const toggleSnackbarClass = ({
+    add,
+    remove,
+  }: {
+    add?: string;
+    remove?: string;
+  }) => {
     if (add) {
       $snackbar.classList.add(...buildCX(add));
     }
@@ -22,35 +29,39 @@ const initSnackbar = (children: HTMLElement) => {
 
   const handleAnimationEnd = () => {
     if ($snackbar.className.includes("enter")) {
-      toggleClass({ add: "show", remove: "enter" });
+      toggleSnackbarClass({ add: "show", remove: "enter" });
     } else {
-      toggleClass({ remove: "show exit" });
+      toggleSnackbarClass({ remove: "show exit" });
       $snackbar.remove();
     }
   };
+
   const handleMouseEnter = () => {
     if (timeoutId) {
       clearTimeout(timeoutId);
     }
   };
+
   const handleMouseLeave = () => {
     timeoutId = window.setTimeout(() => {
-      toggleClass({ add: "exit" });
-    }, SNACKBAR_DURATION);
+      toggleSnackbarClass({ add: "exit" });
+    }, SNACKBAR_DURATION_MS);
   };
+
   $snackbar.addEventListener("animationend", handleAnimationEnd);
   $snackbar.addEventListener("mouseenter", handleMouseEnter);
   $snackbar.addEventListener("mouseleave", handleMouseLeave);
 
   const openSnackbar = () => {
-    toggleClass({ add: "enter" });
-    document.querySelector("#snackbarRoot")!.append($snackbar);
+    toggleSnackbarClass({ add: "enter" });
+    const $root = document.querySelector("#snackbarRoot");
+    assertIsDefined($root);
+    $root.append($snackbar);
+
     timeoutId = window.setTimeout(() => {
-      toggleClass({ add: "exit" });
-    }, SNACKBAR_DURATION);
+      toggleSnackbarClass({ add: "exit" });
+    }, SNACKBAR_DURATION_MS);
   };
 
   return openSnackbar;
 };
-
-export default initSnackbar;

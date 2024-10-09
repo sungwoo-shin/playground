@@ -3,13 +3,14 @@ export const generateDOM = (
   className?: string,
   text?: string,
 ) => {
-  const elem = document.createElement(tag);
+  const $elem = document.createElement(tag);
+
   if (className) {
-    elem.classList.add(...className.split(" "));
+    $elem.classList.add(...className.split(" "));
   }
   if (text) {
-    elem.textContent = text;
+    $elem.textContent = text;
   }
 
-  return elem;
+  return $elem;
 };
