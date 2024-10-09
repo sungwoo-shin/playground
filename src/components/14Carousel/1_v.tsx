@@ -1,4 +1,4 @@
-import { generateDOM } from "#/utils/util";
+import { generateDOM } from "#/utils/generateDOM";
 import { VanillaWrapper } from "../vanillaWrapper";
 import cx from "./cx";
 import data from "./data";

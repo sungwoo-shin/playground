@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-import { waitFor } from "#/utils/util";
+import { waitFor } from "#/utils/waitFor";
 
 const allAlbums = [
   {

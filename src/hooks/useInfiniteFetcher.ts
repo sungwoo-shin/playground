@@ -2,7 +2,7 @@ import { useCallback, useState } from "react";
 
 import { pickRandom } from "#/utils/pickRandom";
 import { getRandomStepNumber } from "#/utils/randomize";
-import { waitFor } from "#/utils/util";
+import { waitFor } from "#/utils/waitFor";
 import { data } from "../components/07InfiniteScroll/data";
 
 type Datum = {

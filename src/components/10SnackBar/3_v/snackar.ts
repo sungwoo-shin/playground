@@ -1,4 +1,4 @@
-import { generateDOM } from "#/utils/util";
+import { generateDOM } from "#/utils/generateDOM";
 import cx from "../cx";
 
 const SNACKBAR_DURATION = 3000;

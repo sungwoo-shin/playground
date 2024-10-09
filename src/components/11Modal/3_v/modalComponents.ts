@@ -1,4 +1,4 @@
-import { stringToDOM } from "#/utils/util";
+import { stringToDOM } from "#/utils/stringToDOM";
 import { Modal } from "./modal";
 
 export const AlertModal = ({ id, text }: { id: string; text: string }) =>

@@ -1,5 +1,5 @@
 import { VanillaWrapper } from "#/components/vanillaWrapper";
-import { stringToDOM } from "#/utils/util";
+import { stringToDOM } from "#/utils/stringToDOM";
 import { AlertModal, ConfirmModal } from "./modalComponents";
 
 const AlertTrigger = ({ id, text }: { id: string; text: string }) => {

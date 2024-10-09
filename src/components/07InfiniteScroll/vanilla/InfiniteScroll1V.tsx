@@ -2,7 +2,7 @@ import { VanillaWrapper } from "#/components/vanillaWrapper";
 import { vanillaIntersectionObserver } from "#/hooks/vanilla/intersectionObserver";
 import { pickRandom } from "#/utils/pickRandom";
 import { getRandomStepNumber } from "#/utils/randomize";
-import { waitFor } from "#/utils/util";
+import { waitFor } from "#/utils/waitFor";
 import { cx } from "../cx";
 import { data } from "../data";
 

@@ -1,4 +1,4 @@
-import { stringToDOM } from "#/utils/util";
+import { stringToDOM } from "#/utils/stringToDOM";
 import { cx } from "../cx";
 
 type TModalFooterButton = {
