@@ -1,19 +1,28 @@
 import {
   createContext,
-  Dispatch,
   EventHandler,
   ReactNode,
   useCallback,
   useContext,
-  useReducer,
+  useMemo,
+  useState,
 } from "react";
 
+import { assertIsDefined } from "#/utils/assetIsDefined";
+import { getContextError } from "#/utils/getContextError";
 // eslint-disable-next-line import/no-cycle
-import SnackbarRoot from "./snackbarRoot";
+import { SnackbarRoot } from "./snackbarRoot";
 
-const SNACKBAR_DURATION = 3000;
+const SNACKBAR_DURATION_MS = 3000;
 
-export type Snackbar = {
+const DEFAULT_SNACKBAR: TSnackbar = {
+  id: "",
+  children: null,
+  isOpen: true,
+  timeoutId: null,
+};
+
+export type TSnackbar = {
   id: string;
   children: ReactNode;
   isOpen: boolean;
@@ -23,113 +32,113 @@ export type Snackbar = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onMouseLeave?: EventHandler<any>;
 };
-type SnackbarActionType = "upsert" | "remove";
-type SnackbarState = Snackbar[];
-const SnackbarContext = createContext<SnackbarState>([]);
-const SnackbarSetContext = createContext<
-  Dispatch<{
-    type: SnackbarActionType;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    payload: Record<string, any>;
-  }>
->(() => {});
 
-const DeafultSnackbar: Snackbar = {
-  id: "",
-  children: null,
-  isOpen: true,
-  timeoutId: null,
+type TSnackbarValues = null | TSnackbar[];
+type TSnackbarActions = null | {
+  upsertSnackbar: (snackbar: Partial<TSnackbar>) => void;
+  createSnackbar: (id: string, children: React.ReactNode) => void;
+  removeSnackbar: (id: string) => void;
 };
 
-const snackbarReducerMap: Record<
-  SnackbarActionType,
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  (state: SnackbarState, payload: any) => SnackbarState
-> = {
-  upsert: (state, payload: Partial<Snackbar>) => {
-    const targetIndex = state.findIndex((item) => item.id === payload.id);
-    if (targetIndex > -1) {
-      const newSnackbars = state.map((item, i) => {
-        if (i === targetIndex) {
-          return {
-            ...state[targetIndex],
-            ...payload,
-          };
+const SnackbarValuesContext = createContext<TSnackbarValues>(null);
+const SnackbarActionsContext = createContext<TSnackbarActions>(null);
+
+export function SnackbarContextProvider({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  const [snackbarValues, setSnackbarValues] = useState<TSnackbarValues>([]);
+
+  const upsertSnackbar = (snackbar: Partial<TSnackbar>) => {
+    setSnackbarValues((prev) => {
+      assertIsDefined(prev);
+
+      const prevIdx = prev?.findIndex((item) => item.id === snackbar.id);
+      if (prevIdx !== -1) {
+        const newSnackbars = prev.map((item, i) =>
+          i === prevIdx
+            ? {
+                ...prev[prevIdx],
+                ...snackbar,
+              }
+            : item,
+        );
+
+        return newSnackbars;
+      }
+
+      return [...prev, { ...DEFAULT_SNACKBAR, ...snackbar }];
+    });
+  };
+
+  // 객체 할당 방식
+  const createSnackbar = useCallback(
+    // eslint-disable-next-line @typescript-eslint/no-shadow
+    (id: string, children: React.ReactNode) => {
+      const newSnackbar: TSnackbar = {
+        id,
+        children,
+        isOpen: true,
+        timeoutId: window.setTimeout(() => {
+          upsertSnackbar({ id, isOpen: false, timeoutId: null });
+        }, SNACKBAR_DURATION_MS),
+      };
+      newSnackbar.onMouseEnter = () => {
+        if (newSnackbar.timeoutId) {
+          clearTimeout(newSnackbar.timeoutId);
         }
+      };
+      newSnackbar.onMouseLeave = () => {
+        newSnackbar.timeoutId = window.setTimeout(() => {
+          upsertSnackbar({
+            id,
+            isOpen: false,
+            timeoutId: null,
+          });
+        }, SNACKBAR_DURATION_MS);
+      };
+      upsertSnackbar(newSnackbar);
+    },
+    [],
+  );
 
-        return item;
-      });
+  const removeSnackbar = (id: string) => {
+    setSnackbarValues((prev) => {
+      assertIsDefined(prev);
 
-      return newSnackbars;
-    }
+      return prev.filter((prevItem) => prevItem.id !== id);
+    });
+  };
 
-    return [...state, { ...DeafultSnackbar, ...payload }];
-  },
-  remove: (state, { id }: { id: string }) => {
-    const targetIndex = state.findIndex((item) => item.id === id);
-
-    return state.filter((item, index) => index !== targetIndex);
-  },
-};
-
-const snackbarReducer = (
-  state: SnackbarState,
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  { type, payload }: { type: SnackbarActionType; payload: Record<string, any> },
-) => snackbarReducerMap[type](state, payload);
-
-function SnackbarContextProvider({ children }: { children: ReactNode }) {
-  const [state, dispatch] = useReducer(snackbarReducer, []);
+  const actions = useMemo(
+    () => ({ upsertSnackbar, createSnackbar, removeSnackbar }),
+    [createSnackbar],
+  );
 
   return (
-    <SnackbarContext.Provider value={state}>
-      <SnackbarSetContext.Provider value={dispatch}>
+    <SnackbarValuesContext.Provider value={snackbarValues}>
+      <SnackbarActionsContext.Provider value={actions}>
         {children}
         <SnackbarRoot />
-      </SnackbarSetContext.Provider>
-    </SnackbarContext.Provider>
+      </SnackbarActionsContext.Provider>
+    </SnackbarValuesContext.Provider>
   );
 }
 
-export default SnackbarContextProvider;
+export const useSnackbarValues = () => {
+  const values = useContext(SnackbarValuesContext);
+  if (values === null) {
+    throw new Error(getContextError("SnackbarValues"));
+  }
 
-export const useSnackbar = () => useContext(SnackbarContext);
-export const useSetSnackbar = () => {
-  const dispatch = useContext(SnackbarSetContext);
+  return values;
+};
+export const useSnackbarActions = () => {
+  const actions = useContext(SnackbarActionsContext);
+  if (actions === null) {
+    throw new Error(getContextError("SnackbarActions"));
+  }
 
-  const createSnackbar = useCallback((id: string, children: ReactNode) => {
-    const newItem: Snackbar = {
-      id,
-      children,
-      isOpen: true,
-      timeoutId: window.setTimeout(() => {
-        dispatch({
-          type: "upsert",
-          payload: { id, isOpen: false, timeoutId: null },
-        });
-      }, SNACKBAR_DURATION),
-    };
-    newItem.onMouseEnter = () => {
-      if (newItem.timeoutId) {
-        clearTimeout(newItem.timeoutId);
-      }
-    };
-    newItem.onMouseLeave = () => {
-      newItem.timeoutId = window.setTimeout(() => {
-        dispatch({
-          type: "upsert",
-          payload: { id, isOpen: false, timeoutId: null },
-        });
-      }, SNACKBAR_DURATION);
-    };
-    dispatch({ type: "upsert", payload: newItem });
-  }, []);
-  const removeSnackbar = useCallback((id: string) => {
-    dispatch({ type: "remove", payload: { id } });
-  }, []);
-
-  return {
-    createSnackbar,
-    removeSnackbar,
-  };
+  return actions;
 };
