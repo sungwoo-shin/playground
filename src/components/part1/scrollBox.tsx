@@ -74,7 +74,7 @@ function ScrollBox<T extends { id: string }>(
   }>(DefaultButtonState);
   const listRef = useRef<HTMLUListElement>(null);
   const itemsRef = useRef<ItemElemType[]>([]);
-  const watcherRef = useRef<ItemElemType[]>([]);
+  const watchersRef = useRef<ItemElemType[]>([]);
 
   const stableHandleIntersect = useCallback(
     (intersectingWatcherEntries: IntersectionObserverEntry[]) => {
@@ -94,7 +94,7 @@ function ScrollBox<T extends { id: string }>(
     },
     [],
   );
-  useIntersectionObserverV2(watcherRef, stableHandleIntersect);
+  useIntersectionObserverV2(watchersRef, stableHandleIntersect);
 
   const scrollFocus = useCallback(
     (index: number, behavior: "instant" | "smooth" = "instant") => {
@@ -137,7 +137,7 @@ function ScrollBox<T extends { id: string }>(
         <li
           className={cx("observer")}
           ref={(r) => {
-            watcherRef.current[0] = r;
+            watchersRef.current[0] = r;
           }}
           data-direction="prev"
         />
@@ -155,7 +155,7 @@ function ScrollBox<T extends { id: string }>(
         <li
           className={cx("observer")}
           ref={(r) => {
-            watcherRef.current[1] = r;
+            watchersRef.current[1] = r;
           }}
           data-direction="next"
         />

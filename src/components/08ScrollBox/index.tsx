@@ -1,16 +1,13 @@
-/* eslint-disable react/jsx-pascal-case */
 import cx from "./cx";
 import { ScrollBoxR } from "./react";
-import ScrollBox_Vanilla from "./vanilla";
+import { ScrollBoxV } from "./vanilla";
 
-function ScrollBox() {
+export function ScrollBox() {
   return (
     <div className={cx("ScrollBoxPage")} style={{ marginBottom: 100 }}>
       <h2>스크롤박스</h2>
       <ScrollBoxR />
-      <ScrollBox_Vanilla />
+      <ScrollBoxV />
     </div>
   );
 }
-
-export default ScrollBox;

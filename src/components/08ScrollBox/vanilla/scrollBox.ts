@@ -1,13 +1,13 @@
 import { buildLazyImg } from "#/components/06LazyLoading/2_v/LazyLoad2V";
-import vanillaIntersectionObserverV2 from "#/hooks/vanilla/intersectionObserverV2";
+import { vanillaIntersectionObserverV2 } from "#/hooks/vanilla/intersectionObserverV2";
 import cx from "../cx";
 import data from "../data";
 
-type Direction = "prev" | "next";
-type ItemElemType = HTMLLIElement | null;
-type ButtonState = Record<Direction, boolean>;
+type TDirection = "prev" | "next";
+type TItemElem = HTMLLIElement | null;
+type TShowNavButton = Record<TDirection, boolean>;
 
-const DefaultButtonState: ButtonState = { prev: true, next: true };
+const defaultShowNavButton: TShowNavButton = { prev: true, next: true };
 
 const generateListItem = ({
   description,
@@ -26,12 +26,9 @@ const generateListItem = ({
   return $div;
 };
 
-const getVisibileEdgeItems = (
-  $list: HTMLUListElement,
-  $items: ItemElemType[],
-) => {
+const getVisibileEdgeItems = ($list: HTMLUListElement, $items: TItemElem[]) => {
   const { left: lLeft, right: lRight } = $list.getBoundingClientRect();
-  const isVisible = ($item: ItemElemType) => {
+  const isVisible = ($item: TItemElem) => {
     const { left, right } = $item?.getBoundingClientRect() || {
       left: 0,
       right: 0,
@@ -50,15 +47,15 @@ const getVisibileEdgeItems = (
   return { left: $items[leftIndex], right: $items[rightIndex] };
 };
 
-const vanillaScrollBox = () => {
-  const setButtonEnabled = (state: ButtonState) => {
+export const vanillaScrollBox = () => {
+  const setButtonEnabled = (state: TShowNavButton) => {
     // eslint-disable-next-line @typescript-eslint/no-use-before-define
     $prevBtn.classList.toggle(cx("on"), state.prev);
     // eslint-disable-next-line @typescript-eslint/no-use-before-define
     $nextBtn.classList.toggle(cx("on"), state.next);
   };
 
-  const move = (direction: Direction) => {
+  const move = (direction: TDirection) => {
     // eslint-disable-next-line @typescript-eslint/no-use-before-define
     const { left, right } = getVisibileEdgeItems($list, $items);
     const elem = direction === "prev" ? left : right; // 보여지는 맨 끝 아이템!
@@ -106,12 +103,12 @@ const vanillaScrollBox = () => {
     {},
     (entries) => {
       if (!entries.length) {
-        setButtonEnabled(DefaultButtonState);
+        setButtonEnabled(defaultShowNavButton);
       }
-      const newState = { ...DefaultButtonState };
+      const newState = { ...defaultShowNavButton };
       entries.forEach((e) => {
         const direction = (e.target as HTMLLIElement).dataset
-          .direction as Direction;
+          .direction as TDirection;
         newState[direction] = false;
       });
       setButtonEnabled(newState);
@@ -120,5 +117,3 @@ const vanillaScrollBox = () => {
 
   return $container;
 };
-
-export default vanillaScrollBox;

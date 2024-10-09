@@ -1,9 +1,11 @@
 import { RefObject, useEffect, useRef } from "react";
 
+import { assertIsDefined } from "#/utils/assetIsDefined";
+
 type Elem = Element | null;
 
 export const useIntersectionObserverV2 = (
-  elemsRef: RefObject<Elem | Elem[]>,
+  elemsRef: RefObject<Elem[]>,
   stableOnIntersect: (intersectingEntries: IntersectionObserverEntry[]) => void,
   options?: IntersectionObserverInit,
 ) => {
@@ -11,30 +13,16 @@ export const useIntersectionObserverV2 = (
 
   useEffect(() => {
     const elems = elemsRef.current;
+    assertIsDefined(elems);
 
-    const handleIntersect: IntersectionObserverCallback = (
-      entries: IntersectionObserverEntry[],
-    ) => {
-      // setIntersectingEntries((prev) =>
-      //   Array.from(
-      //     // 중복 제거 / 최신정보 업데이트 => Map 사용 (덮어쓰기)
-      //     new Map(
-      //       prev.concat(entries).map((entry) => [entry.target, entry]),
-      //     ).values(),
-      //   ).filter((entry) => entry.isIntersecting),
-      // );
-
-      stableOnIntersect(entries.filter((entry) => entry.isIntersecting));
-    };
-
-    const io = new IntersectionObserver(handleIntersect, options);
+    const io = new IntersectionObserver(
+      (entries) =>
+        stableOnIntersect(entries.filter((entry) => entry.isIntersecting)),
+      options,
+    );
     ioRef.current = io;
 
-    if (Array.isArray(elems)) {
-      elems.forEach((elem) => elem && io.observe(elem));
-    } else if (elems) {
-      io.observe(elems);
-    }
+    elems.forEach((elem) => elem && io.observe(elem));
 
     return () => {
       io.disconnect();

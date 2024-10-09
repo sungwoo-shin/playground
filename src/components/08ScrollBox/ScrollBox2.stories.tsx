@@ -1,11 +1,11 @@
 import type { Meta, StoryObj } from "@storybook/react";
 
-import ScrollBox from "./vanilla";
+import { ScrollBoxV } from "./vanilla";
 
 const meta = {
-  component: ScrollBox,
+  component: ScrollBoxV,
   tags: ["autodocs"],
-} satisfies Meta<typeof ScrollBox>;
+} satisfies Meta<typeof ScrollBoxV>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;

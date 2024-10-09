@@ -104,7 +104,6 @@ function ScrollBox<T extends { id: string }>(
       }
 
       setShowNavButton(() => {
-        // 고치자
         const newState = { ...defaultShowNavButton };
 
         intersectingWatcherEntries.forEach((entry) => {
