@@ -1,11 +1,11 @@
 import type { Meta, StoryObj } from "@storybook/react";
 
-import Snackbar from "./2_r";
+import { Snackbar2R } from "./2_r";
 
 const meta = {
-  component: Snackbar,
+  component: Snackbar2R,
   tags: ["autodocs"],
-} satisfies Meta<typeof Snackbar>;
+} satisfies Meta<typeof Snackbar2R>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;

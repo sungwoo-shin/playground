@@ -19,6 +19,10 @@ function SnackbarItem({
   const elemRef = useRef<HTMLDivElement>(null);
   const [animationClassName, setAnimationClassName] = useState<string[]>([]);
 
+  useEffect(() => {
+    setAnimationClassName(isOpen ? ["enter"] : ["show", "exit"]);
+  }, [isOpen]);
+
   // enter => show => show exit => 삭제
   const handleAnimationEnd = () => {
     if (elemRef.current?.className.includes("enter")) {
@@ -27,10 +31,6 @@ function SnackbarItem({
       removeSnackbar(id);
     }
   };
-
-  useEffect(() => {
-    setAnimationClassName(isOpen ? ["enter"] : ["show", "exit"]);
-  }, [isOpen]);
 
   return (
     <div
@@ -47,6 +47,7 @@ function SnackbarItem({
 
 export function SnackbarRoot() {
   const snackbars = useSnackbarValues();
+  console.log("snackbars: ", snackbars);
 
   return (
     <div className={cx("Snackbars")}>

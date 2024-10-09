@@ -2,30 +2,30 @@ import { useEffect, useRef, useState } from "react";
 
 import cx from "../cx";
 // eslint-disable-next-line import/no-cycle
-import { Snackbar } from "./useSnackbar";
+import { TSnackbar } from "./useSnackbar";
 
-function SnackbarItem({
+export function SnackbarItem({
   status,
   setStatus,
   children,
   onMouseEnter,
   onMouseLeave,
-}: Snackbar) {
+}: TSnackbar) {
   const elemRef = useRef<HTMLDivElement>(null);
   const [animationClassName, setAnimationClassName] = useState<string[]>([]);
 
+  useEffect(() => {
+    setAnimationClassName(status === "open" ? ["enter"] : ["show", "exit"]);
+  }, [status]);
+
+  // enter => show => show exit => 삭제
   const handleAnimationEnd = () => {
     if (elemRef.current?.className.includes("enter")) {
       setAnimationClassName(["show"]);
     } else {
       setStatus(null);
     }
-    // enter => show => show exit => 삭제
   };
-
-  useEffect(() => {
-    setAnimationClassName(status === "open" ? ["enter"] : ["show", "exit"]);
-  }, [status]);
 
   return (
     <div
@@ -39,5 +39,3 @@ function SnackbarItem({
     </div>
   );
 }
-
-export default SnackbarItem;

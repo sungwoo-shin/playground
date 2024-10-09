@@ -1,39 +1,32 @@
-import {
-  Dispatch,
-  EventHandler,
-  ReactNode,
-  SetStateAction,
-  useCallback,
-  useRef,
-  useState,
-} from "react";
+import { Dispatch, SetStateAction, useCallback, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 
 // eslint-disable-next-line import/no-cycle
-import SnackbarItem from "./snackbarItem";
+import { SnackbarItem } from "./snackbarItem";
 
-const SNACKBAR_DURATION = 3000;
-type SnackbarStatus = "open" | "close" | null;
+const SNACKBAR_DURATION_MS = 3000;
 
-export type Snackbar = {
-  children: ReactNode;
-  status: SnackbarStatus;
-  setStatus: Dispatch<SetStateAction<SnackbarStatus>>;
+type TStatus = "open" | "close" | null;
+
+export type TSnackbar = {
+  children: React.ReactNode;
+  status: TStatus;
+  setStatus: Dispatch<SetStateAction<TStatus>>;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  onMouseEnter?: EventHandler<any>;
+  onMouseEnter?: React.EventHandler<any>;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  onMouseLeave?: EventHandler<any>;
+  onMouseLeave?: React.EventHandler<any>;
 };
 
-const useSnackbar = (children: ReactNode) => {
+export const useSnackbar = (children: React.ReactNode) => {
   const timeoutId = useRef<number | null>(null);
-  const [status, setStatus] = useState<SnackbarStatus>(null);
+  const [status, setStatus] = useState<TStatus>(null);
 
   const openSnackbar = useCallback(() => {
     setStatus("open");
     timeoutId.current = window.setTimeout(
       () => setStatus("close"),
-      SNACKBAR_DURATION,
+      SNACKBAR_DURATION_MS,
     );
   }, []);
 
@@ -42,14 +35,15 @@ const useSnackbar = (children: ReactNode) => {
       clearTimeout(timeoutId.current);
     }
   };
+
   const handleMouseLeave = () => {
     timeoutId.current = window.setTimeout(() => {
       setStatus("close");
-    }, SNACKBAR_DURATION);
+    }, SNACKBAR_DURATION_MS);
   };
 
   return {
-    snackbar: status
+    snackbarPortal: status
       ? createPortal(
           <SnackbarItem
             status={status}
@@ -65,5 +59,3 @@ const useSnackbar = (children: ReactNode) => {
     open: openSnackbar,
   };
 };
-
-export default useSnackbar;

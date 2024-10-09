@@ -1,7 +1,6 @@
-/* eslint-disable react/button-has-type */
 import cx from "../cx";
 import data from "../data";
-import useSnackbar from "./useSnackbar";
+import { useSnackbar } from "./useSnackbar";
 
 function ListItem({
   id,
@@ -12,7 +11,7 @@ function ListItem({
   name: string;
   index: number;
 }) {
-  const { snackbar, open } = useSnackbar(
+  const { snackbarPortal: SnackbarPortal, open } = useSnackbar(
     <p>
       {index + 1}. {name} 스낵바 알림
     </p>,
@@ -20,19 +19,20 @@ function ListItem({
 
   return (
     <span className={cx("listItem")} id={id}>
-      #{index + 1} <button onClick={open}>스낵바 띄우기</button>
-      {snackbar}
+      #{index + 1}{" "}
+      <button type="button" onClick={open}>
+        스낵바 띄우기
+      </button>
+      {SnackbarPortal}
     </span>
   );
 }
 
-function Snackbar2() {
+export function Snackbar2R() {
   return (
     <>
       <h2>스낵바</h2>
-      <h3>
-        #2. React<sub>createPortal</sub>
-      </h3>
+      <h3>#2. React - createPortal</h3>
       {data.map((item, index) => (
         <ListItem {...item} key={item.id} index={index} />
       ))}
@@ -40,5 +40,3 @@ function Snackbar2() {
     </>
   );
 }
-
-export default Snackbar2;
