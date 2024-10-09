@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 
-import ScrollSpy from "./3_v";
+import { ScrollSpy3V as ScrollSpy } from "./3_v";
 
 const meta = {
   component: ScrollSpy,
