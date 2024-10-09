@@ -56,10 +56,9 @@ const getViewportRectSnapshot = () => {
     }
 
     const scrollingElementRect = scrollingElement.getBoundingClientRect();
-    const newViewportRect: TViewportRect = {
-      ...scrollingElementRect,
+    const newViewportRect: TViewportRect = Object.assign(scrollingElementRect, {
       scrollHeight: scrollingElement.scrollHeight,
-    };
+    });
 
     if (!isSameRect(stored, newViewportRect)) {
       stored = newViewportRect;
